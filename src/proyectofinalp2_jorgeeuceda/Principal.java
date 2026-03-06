@@ -1,13 +1,18 @@
 package proyectofinalp2_jorgeeuceda;
 
+import java.awt.MouseInfo;
+import java.awt.Point;
 import java.util.ArrayList;
 import javax.swing.DefaultListModel;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
 public class Principal extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Principal.class.getName());
     private ArrayList<Variable> variables = new ArrayList<>();
+    private Point defaultPosition = null;
     /**
      * Creates new form Principal
      */
@@ -15,6 +20,7 @@ public class Principal extends javax.swing.JFrame {
         initComponents();
         DefaultListModel model = new DefaultListModel();
         lst_variables.setModel(model);
+        defaultPosition = lbl_move.getLocation();
     }
 
     /**
@@ -50,6 +56,11 @@ public class Principal extends javax.swing.JFrame {
         btn_agregar = new javax.swing.JButton();
         toolBar = new javax.swing.JToolBar();
         jLabel2 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        lbl_move = new javax.swing.JLabel();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        tab_diagrama = new javax.swing.JPanel();
+        tab_codigo = new javax.swing.JPanel();
         menuBar = new javax.swing.JMenuBar();
         tab_archivo = new javax.swing.JMenu();
         itm_guardar = new javax.swing.JMenuItem();
@@ -188,35 +199,112 @@ public class Principal extends javax.swing.JFrame {
         jLabel2.setText("Fuente");
         toolBar.add(jLabel2);
 
+        jLabel1.setFont(new java.awt.Font("Segoe UI Semibold", 1, 14)); // NOI18N
+        jLabel1.setText("Opciones:");
+
+        lbl_move.setBackground(new java.awt.Color(0, 0, 0));
+        lbl_move.setForeground(new java.awt.Color(255, 255, 255));
+        lbl_move.setText("WHUT");
+        lbl_move.setOpaque(true);
+        lbl_move.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                lbl_moveMouseDragged(evt);
+            }
+        });
+        lbl_move.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                lbl_moveMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                lbl_moveMouseReleased(evt);
+            }
+        });
+
+        jTabbedPane1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        tab_diagrama.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                tab_diagramaMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                tab_diagramaMouseExited(evt);
+            }
+        });
+
+        javax.swing.GroupLayout tab_diagramaLayout = new javax.swing.GroupLayout(tab_diagrama);
+        tab_diagrama.setLayout(tab_diagramaLayout);
+        tab_diagramaLayout.setHorizontalGroup(
+            tab_diagramaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 309, Short.MAX_VALUE)
+        );
+        tab_diagramaLayout.setVerticalGroup(
+            tab_diagramaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 297, Short.MAX_VALUE)
+        );
+
+        jTabbedPane1.addTab("Diagrama", tab_diagrama);
+
+        javax.swing.GroupLayout tab_codigoLayout = new javax.swing.GroupLayout(tab_codigo);
+        tab_codigo.setLayout(tab_codigoLayout);
+        tab_codigoLayout.setHorizontalGroup(
+            tab_codigoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 309, Short.MAX_VALUE)
+        );
+        tab_codigoLayout.setVerticalGroup(
+            tab_codigoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 297, Short.MAX_VALUE)
+        );
+
+        jTabbedPane1.addTab("Codigo", tab_codigo);
+
         javax.swing.GroupLayout backgroundLayout = new javax.swing.GroupLayout(background);
         background.setLayout(backgroundLayout);
         backgroundLayout.setHorizontalGroup(
             backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(toolBar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, backgroundLayout.createSequentialGroup()
-                .addContainerGap(513, Short.MAX_VALUE)
+            .addGroup(backgroundLayout.createSequentialGroup()
+                .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(backgroundLayout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addComponent(lbl_move, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(backgroundLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel1)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 183, Short.MAX_VALUE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 313, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, backgroundLayout.createSequentialGroup()
-                        .addComponent(lbl_variables)
-                        .addGap(66, 66, 66))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, backgroundLayout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(24, 24, 24))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, backgroundLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(btn_agregar, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(57, 57, 57))))
+                        .addGap(31, 31, 31))
+                    .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, backgroundLayout.createSequentialGroup()
+                            .addComponent(lbl_variables)
+                            .addGap(42, 42, 42))))
+                .addGap(18, 18, 18))
         );
         backgroundLayout.setVerticalGroup(
             backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(backgroundLayout.createSequentialGroup()
                 .addComponent(toolBar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(lbl_variables, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btn_agregar)
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addGap(7, 7, 7)
+                .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(backgroundLayout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(18, 18, 18)
+                        .addComponent(lbl_move, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jTabbedPane1)
+                    .addGroup(backgroundLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(lbl_variables, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btn_agregar)))
+                .addContainerGap())
         );
 
         tab_archivo.setText("Archivo");
@@ -310,6 +398,30 @@ public class Principal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btn_nuevaVariableActionPerformed
 
+    private void lbl_moveMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_moveMousePressed
+        
+    }//GEN-LAST:event_lbl_moveMousePressed
+
+    private void lbl_moveMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_moveMouseReleased
+        
+    }//GEN-LAST:event_lbl_moveMouseReleased
+
+    private void lbl_moveMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_moveMouseDragged
+        Point mouseLocation = MouseInfo.getPointerInfo().getLocation();
+        SwingUtilities.convertPointFromScreen(mouseLocation, background);
+        JLabel thisLabel = lbl_move;
+        lbl_move.setLocation(mouseLocation);
+    }//GEN-LAST:event_lbl_moveMouseDragged
+
+    private void tab_diagramaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tab_diagramaMouseEntered
+
+    }//GEN-LAST:event_tab_diagramaMouseEntered
+
+    private void tab_diagramaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tab_diagramaMouseExited
+
+        
+    }//GEN-LAST:event_tab_diagramaMouseExited
+
     /**
      * @param args the command line arguments
      */
@@ -353,8 +465,11 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem itm_nuevo;
     private javax.swing.JMenuItem itm_propiedades;
     private javax.swing.JMenuItem itm_savePDF;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JLabel lbl_move;
     private javax.swing.JLabel lbl_tipo;
     private javax.swing.JLabel lbl_valor;
     private javax.swing.JLabel lbl_variable;
@@ -364,6 +479,8 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JPanel pnl_agregarVariable;
     private javax.swing.JPopupMenu popmnu_edit;
     private javax.swing.JMenu tab_archivo;
+    private javax.swing.JPanel tab_codigo;
+    private javax.swing.JPanel tab_diagrama;
     private javax.swing.JMenu tab_exportar;
     private javax.swing.JToolBar toolBar;
     private javax.swing.JTextField txt_variableNombre;
