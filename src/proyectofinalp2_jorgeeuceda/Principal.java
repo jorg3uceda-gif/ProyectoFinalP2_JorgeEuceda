@@ -1,6 +1,7 @@
 package proyectofinalp2_jorgeeuceda;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -16,7 +17,9 @@ public class Principal extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Principal.class.getName());
     private ArrayList<Variable> variables = new ArrayList<>();
-    private Point defaultPosition = null;
+    private Point defaultPosition;
+    private Point initialMouseClick;
+    
     /**
      * Creates new form Principal
      */
@@ -27,13 +30,8 @@ public class Principal extends javax.swing.JFrame {
         DefaultListModel model = new DefaultListModel();
         lst_variables.setModel(model);
         
-        //Crea el rectangulo para la operacion
-        Font font = new Font("Arial",0,10);
-        Operacion operacion = new Operacion(font,"",Color.black,70,50);
-        background.add(operacion);
-        operacion.setSize(70, 50);
-        operacion.setLocation(20, 85);
-        operacion.setVisible(true);
+        //Agarra la ubicacion original de las opciones
+        defaultPosition = operacion.getLocation();
         
     }
 
@@ -76,6 +74,7 @@ public class Principal extends javax.swing.JFrame {
         tp_diagramaCodigo = new javax.swing.JTabbedPane();
         tab_diagrama = new javax.swing.JPanel();
         tab_codigo = new javax.swing.JPanel();
+        operacion = new proyectofinalp2_jorgeeuceda.Operacion();
         menuBar = new javax.swing.JMenuBar();
         tab_archivo = new javax.swing.JMenu();
         itm_guardar = new javax.swing.JMenuItem();
@@ -269,14 +268,50 @@ public class Principal extends javax.swing.JFrame {
 
         tp_diagramaCodigo.addTab("Codigo", tab_codigo);
 
+        operacion.setAlto(60);
+        operacion.setColor(new java.awt.Color(0, 0, 0));
+        operacion.setLargo(80);
+        operacion.setName(""); // NOI18N
+        operacion.setNombre("   ");
+        operacion.setOpaque(false);
+        operacion.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                operacionMouseDragged(evt);
+            }
+        });
+        operacion.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                operacionMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                operacionMouseReleased(evt);
+            }
+        });
+
+        javax.swing.GroupLayout operacionLayout = new javax.swing.GroupLayout(operacion);
+        operacion.setLayout(operacionLayout);
+        operacionLayout.setHorizontalGroup(
+            operacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 85, Short.MAX_VALUE)
+        );
+        operacionLayout.setVerticalGroup(
+            operacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 65, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout backgroundLayout = new javax.swing.GroupLayout(background);
         background.setLayout(backgroundLayout);
         backgroundLayout.setHorizontalGroup(
             backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(toolBar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(backgroundLayout.createSequentialGroup()
-                .addGap(80, 80, 80)
-                .addComponent(jLabel1)
+                .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(backgroundLayout.createSequentialGroup()
+                        .addGap(80, 80, 80)
+                        .addComponent(jLabel1))
+                    .addGroup(backgroundLayout.createSequentialGroup()
+                        .addGap(29, 29, 29)
+                        .addComponent(operacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 114, Short.MAX_VALUE)
                 .addComponent(tp_diagramaCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 313, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -315,6 +350,8 @@ public class Principal extends javax.swing.JFrame {
                     .addGroup(backgroundLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel1)
+                        .addGap(18, 18, 18)
+                        .addComponent(operacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
@@ -419,9 +456,46 @@ public class Principal extends javax.swing.JFrame {
         
     }//GEN-LAST:event_tab_diagramaMouseExited
 
-    public void drawComponents() {
-        
-    }
+    private void operacionMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_operacionMousePressed
+//        Point defaultLocation = operacion.getLocation();
+//        Operacion remplazo = new Operacion(operacion.getFont(),operacion.getNombre(),Color.black,operacion.getLargo(),operacion.getAlto());
+//        remplazo.setLocation(defaultLocation);
+//        remplazo.setLocation(50, 50);
+//        remplazo.setVisible(true);
+        System.out.println(initialMouseClick);
+        initialMouseClick = evt.getPoint();
+        System.out.println(initialMouseClick);
+    }//GEN-LAST:event_operacionMousePressed
+
+    private void operacionMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_operacionMouseDragged
+        Point mouseLocation = evt.getLocationOnScreen();
+        SwingUtilities.convertPointFromScreen(mouseLocation, background);
+        int x = mouseLocation.x - initialMouseClick.x;
+        int y = mouseLocation.y - initialMouseClick.y;
+        operacion.setLocation(x,y);
+    }//GEN-LAST:event_operacionMouseDragged
+
+    private void operacionMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_operacionMouseReleased
+        Point mouseLocation = MouseInfo.getPointerInfo().getLocation();
+        SwingUtilities.convertPointFromScreen(mouseLocation, tab_diagrama);
+        if (tab_diagrama.contains(mouseLocation) && tp_diagramaCodigo.getSelectedIndex()==0) {
+            
+            //Crea una nueva operacion en el panel del diagrama
+            Operacion newOperacion = new Operacion(new Font("Arial",0,10)," ", Color.black, 80, 60);
+            System.out.println(operacion.getFont() + operacion.getNombre() + operacion.getColor() + operacion.getLargo() + operacion.getAlto());
+            newOperacion.setSize(85,65);
+            tab_diagrama.add(newOperacion);
+            
+            int x = mouseLocation.x - initialMouseClick.x;
+            int y = mouseLocation.y - initialMouseClick.y;
+            
+            newOperacion.setLocation(x,y);
+            
+            //Mueve a la operacion a su posicion original
+        }
+        operacion.setLocation(defaultPosition);
+    }//GEN-LAST:event_operacionMouseReleased
+
     
     /**
      * @param args the command line arguments
@@ -477,6 +551,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel lbl_variables;
     private javax.swing.JList<String> lst_variables;
     private javax.swing.JMenuBar menuBar;
+    private proyectofinalp2_jorgeeuceda.Operacion operacion;
     private javax.swing.JPanel pnl_agregarVariable;
     private javax.swing.JPopupMenu popmnu_edit;
     private javax.swing.JMenu tab_archivo;

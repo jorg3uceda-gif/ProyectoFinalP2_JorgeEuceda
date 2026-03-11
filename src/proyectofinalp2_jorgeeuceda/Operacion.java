@@ -28,6 +28,11 @@ public class Operacion extends javax.swing.JPanel{
     private Number variable1;
     private Number variable2;
 
+    public Operacion() {
+    }
+
+    
+    
     public Operacion(Font font, String name, Color color, Color textColor, int width, int height, OperacionTipo tipo, Number variable1, Number variable2) {
         this.fuente = font;
         this.nombre = name;
@@ -119,7 +124,7 @@ public class Operacion extends javax.swing.JPanel{
 
         //Crea el rectangulo
         g2d.setColor(color);
-        g2d.drawRect(0, 0, largo, alto);
+        g2d.drawRect(3, 3, largo, alto);
 
         //Escribe el texto dentro del triangulo
         g2d.setColor(textColor);
