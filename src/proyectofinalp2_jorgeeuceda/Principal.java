@@ -1,5 +1,9 @@
 package proyectofinalp2_jorgeeuceda;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.util.ArrayList;
@@ -18,9 +22,19 @@ public class Principal extends javax.swing.JFrame {
      */
     public Principal() {
         initComponents();
+        
+        //Hace el model de la lista de variables
         DefaultListModel model = new DefaultListModel();
         lst_variables.setModel(model);
-        defaultPosition = lbl_move.getLocation();
+        
+        //Crea el rectangulo para la operacion
+        Font font = new Font("Arial",0,10);
+        Operacion operacion = new Operacion(font,"",Color.black,70,50);
+        background.add(operacion);
+        operacion.setSize(70, 50);
+        operacion.setLocation(20, 85);
+        operacion.setVisible(true);
+        
     }
 
     /**
@@ -41,7 +55,7 @@ public class Principal extends javax.swing.JFrame {
         itm_copiar = new javax.swing.JMenuItem();
         itm_agregarPropiedad = new javax.swing.JMenuItem();
         itm_colorFuente = new javax.swing.JMenuItem();
-        frm_agregarVariable = new javax.swing.JFrame();
+        jd_agregarVariable = new javax.swing.JDialog();
         pnl_agregarVariable = new javax.swing.JPanel();
         lbl_variable = new javax.swing.JLabel();
         txt_variableNombre = new javax.swing.JTextField();
@@ -49,6 +63,8 @@ public class Principal extends javax.swing.JFrame {
         lbl_tipo = new javax.swing.JLabel();
         box_tipo = new javax.swing.JComboBox<>();
         btn_nuevaVariable = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        box_alcance = new javax.swing.JComboBox<>();
         background = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         lst_variables = new javax.swing.JList<>();
@@ -57,8 +73,7 @@ public class Principal extends javax.swing.JFrame {
         toolBar = new javax.swing.JToolBar();
         jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        lbl_move = new javax.swing.JLabel();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        tp_diagramaCodigo = new javax.swing.JTabbedPane();
         tab_diagrama = new javax.swing.JPanel();
         tab_codigo = new javax.swing.JPanel();
         menuBar = new javax.swing.JMenuBar();
@@ -124,6 +139,10 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
+        jLabel3.setText("Alcance: ");
+
+        box_alcance.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Global", "Local" }));
+
         javax.swing.GroupLayout pnl_agregarVariableLayout = new javax.swing.GroupLayout(pnl_agregarVariable);
         pnl_agregarVariable.setLayout(pnl_agregarVariableLayout);
         pnl_agregarVariableLayout.setHorizontalGroup(
@@ -131,24 +150,31 @@ public class Principal extends javax.swing.JFrame {
             .addGroup(pnl_agregarVariableLayout.createSequentialGroup()
                 .addGroup(pnl_agregarVariableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnl_agregarVariableLayout.createSequentialGroup()
-                        .addGap(26, 26, 26)
-                        .addGroup(pnl_agregarVariableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(pnl_agregarVariableLayout.createSequentialGroup()
-                                .addComponent(lbl_tipo, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(box_tipo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(pnl_agregarVariableLayout.createSequentialGroup()
-                                .addComponent(lbl_valor, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txt_variableNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(153, 153, 153)
+                        .addComponent(lbl_variable))
                     .addGroup(pnl_agregarVariableLayout.createSequentialGroup()
-                        .addGap(128, 128, 128)
+                        .addGap(124, 124, 124)
                         .addComponent(btn_nuevaVariable, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(pnl_agregarVariableLayout.createSequentialGroup()
-                        .addGap(153, 153, 153)
-                        .addComponent(lbl_variable)))
-                .addContainerGap(48, Short.MAX_VALUE))
+                        .addGap(26, 26, 26)
+                        .addGroup(pnl_agregarVariableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(pnl_agregarVariableLayout.createSequentialGroup()
+                                .addComponent(lbl_valor, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txt_variableNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(pnl_agregarVariableLayout.createSequentialGroup()
+                                .addGroup(pnl_agregarVariableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lbl_tipo, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel3))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(pnl_agregarVariableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(box_alcance, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(box_tipo, 0, 271, Short.MAX_VALUE))))))
+                .addContainerGap(42, Short.MAX_VALUE))
         );
+
+        pnl_agregarVariableLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {box_alcance, box_tipo, txt_variableNombre});
+
         pnl_agregarVariableLayout.setVerticalGroup(
             pnl_agregarVariableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnl_agregarVariableLayout.createSequentialGroup()
@@ -162,19 +188,23 @@ public class Principal extends javax.swing.JFrame {
                 .addGroup(pnl_agregarVariableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbl_tipo)
                     .addComponent(box_tipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(30, 30, 30)
+                .addGap(18, 18, 18)
+                .addGroup(pnl_agregarVariableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(box_alcance, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
                 .addComponent(btn_nuevaVariable)
-                .addContainerGap(51, Short.MAX_VALUE))
+                .addGap(44, 44, 44))
         );
 
-        javax.swing.GroupLayout frm_agregarVariableLayout = new javax.swing.GroupLayout(frm_agregarVariable.getContentPane());
-        frm_agregarVariable.getContentPane().setLayout(frm_agregarVariableLayout);
-        frm_agregarVariableLayout.setHorizontalGroup(
-            frm_agregarVariableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout jd_agregarVariableLayout = new javax.swing.GroupLayout(jd_agregarVariable.getContentPane());
+        jd_agregarVariable.getContentPane().setLayout(jd_agregarVariableLayout);
+        jd_agregarVariableLayout.setHorizontalGroup(
+            jd_agregarVariableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(pnl_agregarVariable, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
-        frm_agregarVariableLayout.setVerticalGroup(
-            frm_agregarVariableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        jd_agregarVariableLayout.setVerticalGroup(
+            jd_agregarVariableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(pnl_agregarVariable, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
@@ -199,28 +229,10 @@ public class Principal extends javax.swing.JFrame {
         jLabel2.setText("Fuente");
         toolBar.add(jLabel2);
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI Semibold", 1, 14)); // NOI18N
-        jLabel1.setText("Opciones:");
+        jLabel1.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
+        jLabel1.setText("Opciones");
 
-        lbl_move.setBackground(new java.awt.Color(0, 0, 0));
-        lbl_move.setForeground(new java.awt.Color(255, 255, 255));
-        lbl_move.setText("WHUT");
-        lbl_move.setOpaque(true);
-        lbl_move.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-            public void mouseDragged(java.awt.event.MouseEvent evt) {
-                lbl_moveMouseDragged(evt);
-            }
-        });
-        lbl_move.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                lbl_moveMousePressed(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                lbl_moveMouseReleased(evt);
-            }
-        });
-
-        jTabbedPane1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        tp_diagramaCodigo.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         tab_diagrama.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -242,7 +254,7 @@ public class Principal extends javax.swing.JFrame {
             .addGap(0, 297, Short.MAX_VALUE)
         );
 
-        jTabbedPane1.addTab("Diagrama", tab_diagrama);
+        tp_diagramaCodigo.addTab("Diagrama", tab_diagrama);
 
         javax.swing.GroupLayout tab_codigoLayout = new javax.swing.GroupLayout(tab_codigo);
         tab_codigo.setLayout(tab_codigoLayout);
@@ -255,7 +267,7 @@ public class Principal extends javax.swing.JFrame {
             .addGap(0, 297, Short.MAX_VALUE)
         );
 
-        jTabbedPane1.addTab("Codigo", tab_codigo);
+        tp_diagramaCodigo.addTab("Codigo", tab_codigo);
 
         javax.swing.GroupLayout backgroundLayout = new javax.swing.GroupLayout(background);
         background.setLayout(backgroundLayout);
@@ -263,48 +275,47 @@ public class Principal extends javax.swing.JFrame {
             backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(toolBar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(backgroundLayout.createSequentialGroup()
-                .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(backgroundLayout.createSequentialGroup()
-                        .addGap(27, 27, 27)
-                        .addComponent(lbl_move, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(backgroundLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel1)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 183, Short.MAX_VALUE)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 313, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(80, 80, 80)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 114, Short.MAX_VALUE)
+                .addComponent(tp_diagramaCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 313, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, backgroundLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(49, 49, 49)
                         .addComponent(btn_agregar, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(31, 31, 31))
-                    .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, backgroundLayout.createSequentialGroup()
-                            .addComponent(lbl_variables)
-                            .addGap(42, 42, 42))))
-                .addGap(18, 18, 18))
+                        .addGap(49, 49, 49))
+                    .addGroup(backgroundLayout.createSequentialGroup()
+                        .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(backgroundLayout.createSequentialGroup()
+                                .addGap(59, 59, 59)
+                                .addComponent(lbl_variables))
+                            .addGroup(backgroundLayout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(18, 18, 18))))
         );
         backgroundLayout.setVerticalGroup(
             backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(backgroundLayout.createSequentialGroup()
-                .addComponent(toolBar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(7, 7, 7)
+                .addComponent(toolBar, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
                 .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(backgroundLayout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(18, 18, 18)
-                        .addComponent(lbl_move, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jTabbedPane1)
+                        .addGap(7, 7, 7)
+                        .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(tp_diagramaCodigo)
+                            .addGroup(backgroundLayout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(lbl_variables, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btn_agregar)
+                                .addGap(6, 6, 6)))
+                        .addContainerGap())
                     .addGroup(backgroundLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(lbl_variables, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btn_agregar)))
-                .addContainerGap())
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel1)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         tab_archivo.setText("Archivo");
@@ -365,13 +376,14 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_itm_eliminarActionPerformed
 
     private void btn_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarActionPerformed
-        frm_agregarVariable.setVisible(true);
-        frm_agregarVariable.setSize(400,255);
+        jd_agregarVariable.setVisible(true);
+        jd_agregarVariable.pack();
     }//GEN-LAST:event_btn_agregarActionPerformed
 
     private void btn_nuevaVariableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nuevaVariableActionPerformed
         String nombre = txt_variableNombre.getText();
         String tipo = (String) box_tipo.getSelectedItem();
+        String alcance = (String) box_alcance.getSelectedItem();
         System.out.println(tipo);
         
         boolean nombreValid = true;
@@ -387,7 +399,7 @@ public class Principal extends javax.swing.JFrame {
         }
         
         if(nombreValid){
-            Variable variable = new Variable(nombre, tipo);
+            Variable variable = new Variable(nombre, tipo, alcance);
             variables.add(variable);
             DefaultListModel model = (DefaultListModel)lst_variables.getModel();
             model.addElement(variable);
@@ -398,23 +410,8 @@ public class Principal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btn_nuevaVariableActionPerformed
 
-    private void lbl_moveMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_moveMousePressed
-        
-    }//GEN-LAST:event_lbl_moveMousePressed
-
-    private void lbl_moveMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_moveMouseReleased
-        
-    }//GEN-LAST:event_lbl_moveMouseReleased
-
-    private void lbl_moveMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_moveMouseDragged
-        Point mouseLocation = MouseInfo.getPointerInfo().getLocation();
-        SwingUtilities.convertPointFromScreen(mouseLocation, background);
-        JLabel thisLabel = lbl_move;
-        lbl_move.setLocation(mouseLocation);
-    }//GEN-LAST:event_lbl_moveMouseDragged
-
     private void tab_diagramaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tab_diagramaMouseEntered
-
+        
     }//GEN-LAST:event_tab_diagramaMouseEntered
 
     private void tab_diagramaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tab_diagramaMouseExited
@@ -422,6 +419,10 @@ public class Principal extends javax.swing.JFrame {
         
     }//GEN-LAST:event_tab_diagramaMouseExited
 
+    public void drawComponents() {
+        
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -449,10 +450,10 @@ public class Principal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel background;
+    private javax.swing.JComboBox<String> box_alcance;
     private javax.swing.JComboBox<String> box_tipo;
     private javax.swing.JButton btn_agregar;
     private javax.swing.JButton btn_nuevaVariable;
-    private javax.swing.JFrame frm_agregarVariable;
     private javax.swing.JMenuItem itm_abrir;
     private javax.swing.JMenuItem itm_agregarPropiedad;
     private javax.swing.JMenuItem itm_cambiarColor;
@@ -467,9 +468,9 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem itm_savePDF;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JLabel lbl_move;
+    private javax.swing.JDialog jd_agregarVariable;
     private javax.swing.JLabel lbl_tipo;
     private javax.swing.JLabel lbl_valor;
     private javax.swing.JLabel lbl_variable;
@@ -483,6 +484,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JPanel tab_diagrama;
     private javax.swing.JMenu tab_exportar;
     private javax.swing.JToolBar toolBar;
+    private javax.swing.JTabbedPane tp_diagramaCodigo;
     private javax.swing.JTextField txt_variableNombre;
     // End of variables declaration//GEN-END:variables
 }

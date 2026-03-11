@@ -4,11 +4,15 @@ public class Variable {
     
     String name;
     String type;
+    String alcance;
 
-    public Variable(String name, String type) {
+    public Variable(String name, String type, String alcance) {
         this.name = name;
         this.type = type;
+        this.alcance = alcance;
     }
+
+    
 
     public String getName() {
         return name;
