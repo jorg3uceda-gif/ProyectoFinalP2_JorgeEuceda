@@ -13,85 +13,32 @@ import java.awt.Graphics2D;
  *
  * @author Jorge
  */
-public class Operacion extends javax.swing.JPanel{
+public class Operacion extends Grafico{
     
-    //Parte Visual
-    private Font fuente;
-    private String nombre;
-    private Color color;
-    private Color textColor;
-    private int largo;
-    private int alto;
 
     //Parte Logica
     private OperacionTipo tipo;
-    private Number variable1;
-    private Number variable2;
+    private Variable variable1;
+    private Variable variable2;
+    private Variable resultado;
 
-    public Operacion() {
+    public Operacion(){
+        
     }
-
     
-    
-    public Operacion(Font font, String name, Color color, Color textColor, int width, int height, OperacionTipo tipo, Number variable1, Number variable2) {
-        this.fuente = font;
-        this.nombre = name;
-        this.color = color;
-        this.textColor = textColor;
-        this.largo = width;
-        this.alto = height;
+    public Operacion(OperacionTipo tipo, Variable variable1, Variable variable2, Variable variable3, Font font, String name, Color color, int width, int height, boolean fill) {
+        super(font, name, color, width, height, fill);
         this.tipo = tipo;
         this.variable1 = variable1;
         this.variable2 = variable2;
+        this.resultado = variable3;
     }
     
-    public Operacion(Font font, String name, Color color, int width, int height) {
-        this.fuente = font;
-        this.nombre = name;
-        this.color = color;
-        this.largo = width;
-        this.alto = height;
+    
+    public Operacion(Font font, String name, Color color, int width, int height, boolean fill) {
+        super(font, name, color, width, height, fill);
     }
 
-    public Font getFuente() {
-        return fuente;
-    }
-
-    public void setFuente(Font font) {
-        this.fuente = font;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String name) {
-        this.nombre = name;
-    }
-
-    public Color getColor() {
-        return color;
-    }
-
-    public void setColor(Color color) {
-        this.color = color;
-    }
-
-    public int getLargo() {
-        return largo;
-    }
-
-    public void setLargo(int width) {
-        this.largo = width;
-    }
-
-    public int getAlto() {
-        return alto;
-    }
-
-    public void setAlto(int height) {
-        this.alto = height;
-    }
 
     public OperacionTipo getTipo() {
         return tipo;
@@ -101,20 +48,28 @@ public class Operacion extends javax.swing.JPanel{
         this.tipo = tipo;
     }
 
-    public Number getVariable1() {
+    public Variable getVariable1() {
         return variable1;
     }
 
-    public void setVariable1(Number variable1) {
+    public void setVariable1(Variable variable1) {
         this.variable1 = variable1;
     }
 
-    public Number getVariable2() {
+    public Variable getVariable2() {
         return variable2;
     }
 
-    public void setVariable2(Number variable2) {
+    public void setVariable2(Variable variable2) {
         this.variable2 = variable2;
+    }
+
+    public Variable getResultado() {
+        return resultado;
+    }
+
+    public void setResultado(Variable resultado) {
+        this.resultado = resultado;
     }
     
     @Override
@@ -124,12 +79,17 @@ public class Operacion extends javax.swing.JPanel{
 
         //Crea el rectangulo
         g2d.setColor(color);
-        g2d.drawRect(3, 3, largo, alto);
+        if (fill) {
+            g2d.fillRect(3, 3, largo, alto);
+        }
+        else{
+            g2d.drawRect(3, 3, largo, alto);
+        }
 
         //Escribe el texto dentro del triangulo
         g2d.setColor(textColor);
         g2d.setFont(fuente);
-        g2d.drawString(nombre, largo/2, alto/2);
+        g2d.drawString(nombre, largo/2-nombre.length(), alto/2);
         repaint();
     }
     

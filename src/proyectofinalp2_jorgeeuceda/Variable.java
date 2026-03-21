@@ -2,16 +2,15 @@ package proyectofinalp2_jorgeeuceda;
 
 public class Variable {
     
-    String name;
-    String type;
-    String alcance;
+    private String name;
+    private String type;
+    private String alcance;
 
     public Variable(String name, String type, String alcance) {
         this.name = name;
         this.type = type;
         this.alcance = alcance;
     }
-
     
 
     public String getName() {
@@ -30,6 +29,14 @@ public class Variable {
         this.type = type;
     }
 
+    public String getAlcance() {
+        return alcance;
+    }
+
+    public void setAlcance(String alcance) {
+        this.alcance = alcance;
+    }
+    
     @Override
     public String toString() {
         return "("+type+")"+" "+name;
