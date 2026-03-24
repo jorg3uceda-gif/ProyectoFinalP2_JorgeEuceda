@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package proyectofinalp2_jorgeeuceda;
 
 import java.awt.Color;
@@ -10,45 +6,59 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 
-/**
- *
- * @author Jorge
- */
-public class While extends Grafico{
+
+public class For extends Grafico{
     
-    String condicion;
-    boolean inicio;
+    private String init;
+    private String condicion;
+    private String actualizar;
+    private boolean inicio;
 
-    public While() {
+    public For(){
+        
     }
 
-    public While(Font font, String name, Color color, int width, int height, boolean fill) {
+    public For(Font font, String name, Color color, int width, int height, boolean fill) {
         super(font, name, color, width, height, fill);
     }
-
-    public While(boolean inicio, Font font, String name, Color color, int width, int height, boolean fill) {
+    
+    public For(boolean inicio, String init, String condicion, String actualizar, Font font, String name, Color color, int width, int height, boolean fill) {
         super(font, name, color, width, height, fill);
         this.inicio = inicio;
-    }
-
-    public While(String condicion, boolean inicio, Font font, String name, Color color, int width, int height, boolean fill) {
-        super(font, name, color, width, height, fill);
+        this.init = init;
         this.condicion = condicion;
-        this.inicio = inicio;
+        this.actualizar = actualizar;
     }
-
     @Override
     public String generateCode(int indent) {
         if (inicio) {
-            return ("\nwhile("+condicion+"){").indent(indent);
+            return ("\nfor("+init+";"+condicion+";"+actualizar+"){\n").indent(indent);
         }
         else{
-            return"""
-                  }
-                  """;
+            return """
+                   }
+                   """.indent(indent);
         }
     }
     
+    public boolean isInicio() {
+        return inicio;
+    }
+
+    public void setInicio(boolean inicio) {
+        this.inicio = inicio;
+    }
+    
+    
+    
+    public String getInit() {
+        return init;
+    }
+
+    public void setInit(String init) {
+        this.init = init;
+    }
+
     public String getCondicion() {
         return condicion;
     }
@@ -57,19 +67,21 @@ public class While extends Grafico{
         this.condicion = condicion;
     }
 
-    public boolean isInicio() {
-        return inicio;
+    public String getActualizar() {
+        return actualizar;
     }
 
-    public void setInicio(boolean inicio) {
-        this.inicio = inicio;
+    public void setActualizar(String actualizar) {
+        this.actualizar = actualizar;
     }
-
+    
+        
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
 
+        //Hace mas suaves las lineas
         g2d.setRenderingHint(
                 RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON
@@ -80,8 +92,8 @@ public class While extends Grafico{
                 RenderingHints.VALUE_TEXT_ANTIALIAS_ON
         );
         
-        int[] puntosX = {largo / 2, largo, largo / 2, 0};
-        int[] puntosY = {0, alto / 2, alto, alto / 2};
+        int[] puntosX = {0,largo-5,largo,5};
+        int[] puntosY = {alto, alto, 3, 3};
 
         //Crea el diamante
         g2d.setColor(color);
@@ -91,15 +103,16 @@ public class While extends Grafico{
             g2d.drawPolygon(puntosX, puntosY, 4);
         }
 
-        //Escribe el texto dentro del triangulo
+        //Escribe el texto dentro del diamante
         g2d.setColor(textColor);
         g2d.setFont(fuente);
-        g2d.drawString(nombre, largo / 2 - nombre.length(), alto / 2);
+        g2d.drawString(nombre, 5, alto / 2);
         repaint();
     }
     
-    public While copy() {
-        While copy = new While();
+    @Override
+    public For copy() {
+        For copy = new For();
         copy.alto = this.alto;
         copy.largo = this.largo;
         copy.fill = this.fill;
@@ -107,12 +120,14 @@ public class While extends Grafico{
         copy.color = this.color;
         copy.nombre = this.nombre;
         copy.textColor = this.textColor;
+        copy.init = this.init;
         copy.condicion = this.condicion;
+        copy.actualizar = this.actualizar;
         copy.inicio = this.inicio;
-        
+
         return copy;
     }
-    
+
     @Override
     public String Datos() {
         return "Fuente: " + fuente + "\n"
@@ -122,7 +137,11 @@ public class While extends Grafico{
                 + "Largo: " + largo + "\n"
                 + "Alto: " + alto + "\n"
                 + "Relleno: " + fill + "\n"
-                + "Condicion: " + condicion + "\n"
-                + "Inicio: " + inicio;
+                + "Inicializador: "+ init + "\n"
+                + "Condicion: "+ condicion + "\n"
+                + "Actualizador: "+ actualizar +"\n"
+                + "Inicio: "+inicio;
     }
+    
+    
 }

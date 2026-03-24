@@ -8,6 +8,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 
 /**
  *
@@ -37,6 +38,18 @@ public class If extends Grafico{
         this.inicio = inicio;
     }
 
+    @Override
+    public String generateCode(int indent) {
+        if (inicio) {
+            return ("\nif("+condicion+"){").indent(indent);
+        }
+        else{
+            return"""
+                  }
+                  """.indent(indent);
+        }
+    }
+    
     public String getCondicion() {
         return condicion;
     }
@@ -53,13 +66,38 @@ public class If extends Grafico{
         this.inicio = inicio;
     }
     
-    
+    @Override
+    public If copy() {
+        If copy = new If();
+        copy.alto = this.alto;
+        copy.largo = this.largo;
+        copy.fill = this.fill;
+        copy.fuente = this.fuente;
+        copy.color = this.color;
+        copy.nombre = this.nombre;
+        copy.textColor = this.textColor;
+        copy.condicion = this.condicion;
+        copy.inicio = this.inicio;
+
+        return copy;
+    }
     
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
 
+                //Hace mas suaves las lineas
+        g2d.setRenderingHint(
+                RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON
+        );
+
+        g2d.setRenderingHint(
+                RenderingHints.KEY_TEXT_ANTIALIASING,
+                RenderingHints.VALUE_TEXT_ANTIALIAS_ON
+        );
+        
         int[] puntosX = {largo/2,largo,largo/2,0};
         int[] puntosY = {0, alto/2, alto, alto/2};
         
@@ -77,4 +115,20 @@ public class If extends Grafico{
         g2d.drawString(nombre, largo / 2 - nombre.length(), alto / 2);
         repaint();
     }
+
+    @Override
+    public String Datos() {
+        return "Fuente: " + fuente + "\n"
+                + "Nombre: " + nombre + "\n"
+                + "Color: " + color + "\n"
+                + "Color de texto: " + textColor + "\n"
+                + "Largo: " + largo + "\n"
+                + "Alto: " + alto + "\n"
+                + "Relleno: " + fill + "\n"
+                + "Condicion: " + condicion + "\n"
+                + "Inicio: " + inicio;    
+    }
+
+    
+    
 }

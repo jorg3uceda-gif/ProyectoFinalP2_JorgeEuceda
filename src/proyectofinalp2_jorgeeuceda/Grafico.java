@@ -6,12 +6,14 @@ package proyectofinalp2_jorgeeuceda;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Point;
+import java.io.Serializable;
 
 /**
  *
  * @author Jorge
  */
-public abstract class Grafico extends javax.swing.JPanel{
+public abstract class Grafico extends javax.swing.JPanel implements Serializable{
     
     //Parte Visual
     protected Font fuente;
@@ -21,6 +23,7 @@ public abstract class Grafico extends javax.swing.JPanel{
     protected int largo;
     protected int alto;
     protected boolean fill;
+    protected Point Posicion;
 
     public Grafico(){        
         
@@ -35,6 +38,8 @@ public abstract class Grafico extends javax.swing.JPanel{
         this.fill = fill;
     }
 
+    public abstract String generateCode(int indent);
+    
     public Font getFuente() {
         return fuente;
     }
@@ -92,6 +97,26 @@ public abstract class Grafico extends javax.swing.JPanel{
         this.fill = fill;
     }
 
+    public Point getPosicion() {
+        return Posicion;
+    }
+
+    public void setPosicion(Point Posicion) {
+        this.Posicion = Posicion;
+    }
     
+    
+    
+    public abstract Grafico copy();
+    
+    public String Datos() {
+        return "Fuente: " + fuente + "\n"
+                + "Nombre: " + nombre + "\n"
+                + "Color: " + color + "\n"
+                + "Color de texto: " + textColor + "\n"
+                + "Largo: " + largo + "\n"
+                + "Alto: " + alto + "\n"
+                + "Relleno: " + fill;    
+    }
     
 }

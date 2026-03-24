@@ -10,9 +10,19 @@ package proyectofinalp2_jorgeeuceda;
  */
 public enum OperacionTipo {
     
-    SUMA,
-    RESTA,
-    MULTIPLICACION,
-    DIVISION
+    SUMA("+"),
+    RESTA("-"),
+    MULTIPLICACION("*"),
+    DIVISION("/");
+    
+    private final String simbolo;
+
+    private OperacionTipo(String symbol) {
+        this.simbolo = symbol;
+    }
+
+    public String getSimbolo() {
+        return simbolo;
+    }
     
 }

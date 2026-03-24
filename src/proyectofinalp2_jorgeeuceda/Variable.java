@@ -1,6 +1,8 @@
 package proyectofinalp2_jorgeeuceda;
 
-public class Variable {
+import java.io.Serializable;
+
+public class Variable implements Serializable {
     
     private String name;
     private String type;
@@ -12,7 +14,6 @@ public class Variable {
         this.alcance = alcance;
     }
     
-
     public String getName() {
         return name;
     }

@@ -8,6 +8,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 
 /**
  *
@@ -39,6 +40,11 @@ public class Operacion extends Grafico{
         super(font, name, color, width, height, fill);
     }
 
+    
+    @Override
+    public String generateCode(int indent) {
+        return ("\n"+resultado.getName()+"="+variable1.getName()+tipo.getSimbolo()+variable2.getName()+"\n").indent(indent);
+    }
 
     public OperacionTipo getTipo() {
         return tipo;
@@ -77,6 +83,17 @@ public class Operacion extends Grafico{
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
 
+                //Hace mas suaves las lineas
+        g2d.setRenderingHint(
+                RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON
+        );
+
+        g2d.setRenderingHint(
+                RenderingHints.KEY_TEXT_ANTIALIASING,
+                RenderingHints.VALUE_TEXT_ANTIALIAS_ON
+        );
+        
         //Crea el rectangulo
         g2d.setColor(color);
         if (fill) {
@@ -89,10 +106,40 @@ public class Operacion extends Grafico{
         //Escribe el texto dentro del triangulo
         g2d.setColor(textColor);
         g2d.setFont(fuente);
-        g2d.drawString(nombre, largo/2-nombre.length(), alto/2);
+        g2d.drawString(nombre, 5, alto/2);
         repaint();
     }
     
+    public Operacion copy() {
+        Operacion copy = new Operacion();
+        copy.alto = this.alto;
+        copy.largo = this.largo;
+        copy.fill = this.fill;
+        copy.fuente = this.fuente;
+        copy.color = this.color;
+        copy.nombre = this.nombre;
+        copy.textColor = this.textColor;
+        copy.tipo = this.tipo;
+        copy.resultado = this.resultado;
+        copy.variable1 = this.variable1;
+        copy.variable2 = this.variable2;
+
+        return copy;
+    }
     
+    @Override
+    public String Datos() {
+        return "Fuente: " + fuente + "\n"
+                + "Nombre: " + nombre + "\n"
+                + "Color: " + color + "\n"
+                + "Color de texto: " + textColor + "\n"
+                + "Largo: " + largo + "\n"
+                + "Alto: " + alto + "\n"
+                + "Relleno: " + fill + "\n"
+                + "Operacion: " + tipo + "\n"
+                + "Variable 1: " + variable1 + "\n"
+                + "Variable 2: " + variable2 + "\n"
+                + "Resultado: " + resultado;
+    }
     
 }
