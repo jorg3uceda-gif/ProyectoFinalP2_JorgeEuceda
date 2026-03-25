@@ -3,32 +3,37 @@ package proyectofinalp2_jorgeeuceda;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GraphicsEnvironment;
+import java.awt.HeadlessException;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import javax.imageio.ImageIO;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JColorChooser;
 import javax.swing.JFileChooser;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
+import org.apache.pdfbox.pdmodel.*;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
+import org.apache.commons.logging.Log;
+import org.apache.fontbox.type1.Type1Font;
+import org.apache.pdfbox.pdmodel.font.PDFont;
+import org.apache.pdfbox.pdmodel.font.Standard14Fonts;
+import org.apache.pdfbox.pdmodel.graphics.image.LosslessFactory;
+import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 
 public class Principal extends javax.swing.JFrame {
     
@@ -49,7 +54,6 @@ public class Principal extends javax.swing.JFrame {
     private ArrayList<Grafico> componentes = new ArrayList<>();
     
     private Grafico propertiesComponent;
-    private Grafico selectedComponent;
     private Grafico copiedComponent;
     
     /**
@@ -1402,6 +1406,11 @@ public class Principal extends javax.swing.JFrame {
 
         itm_savePDF.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_V, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         itm_savePDF.setText("Guardar PDF");
+        itm_savePDF.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itm_savePDFActionPerformed(evt);
+            }
+        });
         tab_exportar.add(itm_savePDF);
 
         menuBar.add(tab_exportar);
@@ -1423,26 +1432,7 @@ public class Principal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void itm_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itm_guardarActionPerformed
-        JFileChooser chooser = new JFileChooser();
-        int resultado = chooser.showSaveDialog(null);
-        if (resultado == JFileChooser.APPROVE_OPTION) {
-            File archivo = chooser.getSelectedFile();
-            try {
-                FileOutputStream fos = new FileOutputStream(archivo);
-                ObjectOutputStream oos = new ObjectOutputStream(fos);
-//                for (Grafico bloque : componentes) {
-//                    Point blockLocation = bloque.getLocation();
-//                    SwingUtilities.convertPointFromScreen(blockLocation, tab_diagrama);
-//                    bloque.setPosicion(blockLocation);
-//                }
-//                oos.writeObject(componentes);
-                oos.close();
-            } catch (FileNotFoundException ex) {
-                System.getLogger(Principal.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
-            } catch (IOException ex) {
-                System.getLogger(Principal.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
-            }
-        }
+
     }//GEN-LAST:event_itm_guardarActionPerformed
 
     private void itm_cambiarTextoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itm_cambiarTextoActionPerformed
@@ -1453,7 +1443,7 @@ public class Principal extends javax.swing.JFrame {
                 newOperacion.setNombre(newNombre);
             }
         }
-        catch(Exception e){
+        catch(HeadlessException e){
             System.out.println("Error al cambiar nombre");
         }
 
@@ -2060,6 +2050,58 @@ public class Principal extends javax.swing.JFrame {
         System.out.println(codigo);
     }//GEN-LAST:event_btn_generarCodigoActionPerformed
 
+    private void itm_savePDFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itm_savePDFActionPerformed
+        JFileChooser chooser = new JFileChooser();
+        int resultado = chooser.showSaveDialog(null);
+        if (resultado == JFileChooser.APPROVE_OPTION) {
+            File archivo = chooser.getSelectedFile();
+
+            //Crea la imagen basada de el panel de diagrama
+            BufferedImage screenshot = new BufferedImage(tab_diagrama.getWidth(), tab_diagrama.getHeight(), BufferedImage.TYPE_INT_RGB);
+            Graphics2D g2 = screenshot.createGraphics();
+            tab_diagrama.paint(g2);
+            g2.dispose();
+
+            //Crea el PDF y sus paginas
+            PDDocument document = new PDDocument();
+
+            //Primera pagina
+            try {
+
+                //Crea las paginas
+                PDPage diagrama = new PDPage();
+                document.addPage(diagrama);
+                PDPage codigo = new PDPage();
+                document.addPage(codigo);
+
+                PDImageXObject imagen = LosslessFactory.createFromImage(document, screenshot);
+                PDPageContentStream csDiagrama = new PDPageContentStream(document, diagrama);
+                csDiagrama.drawImage(imagen, 70, 250);
+                csDiagrama.close();
+                if (!txt_codigo.getText().isEmpty()) {
+                    PDPageContentStream cs = new PDPageContentStream(document, codigo);
+                    cs.beginText();
+                    cs.setLeading(14.5f);
+                    cs.newLineAtOffset(50, 700);
+                    cs.setFont(new PDType1Font(Standard14Fonts.FontName.HELVETICA_BOLD), 13);
+                    String[] lineas = txt_codigo.getText().split("\\n");
+                    for (String linea : lineas) {
+                        cs.showText(linea);
+                        cs.newLine();
+                    }
+                    cs.endText();
+                    cs.close();
+                }
+                document.save(archivo);
+                document.close();
+
+                JOptionPane.showMessageDialog(null, "PDF guardado");
+            } catch (IOException ex) {
+                System.getLogger(Principal.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+            }
+        }
+    }//GEN-LAST:event_itm_savePDFActionPerformed
+
     
     
     private void newOperacionMouseDragged(java.awt.event.MouseEvent evt, Grafico newOperacion){
@@ -2077,7 +2119,6 @@ public class Principal extends javax.swing.JFrame {
         if (evt.getButton() == MouseEvent.BUTTON3) {
             itm_rellenar.setSelected(newOperacion.isFill());
         }
-        selectedComponent = newOperacion;
     }
     
     private void newOperacionMouseReleased(java.awt.event.MouseEvent evt, Grafico newOperacion){
