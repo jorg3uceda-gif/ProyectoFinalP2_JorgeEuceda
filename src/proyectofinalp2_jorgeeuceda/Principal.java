@@ -14,11 +14,14 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import static java.util.Locale.filter;
 import java.util.Random;
 import javax.imageio.ImageIO;
 import javax.swing.DefaultComboBoxModel;
@@ -61,9 +64,11 @@ public class Principal extends javax.swing.JFrame {
     
     private ArrayList<Grafico> componentes = new ArrayList<>();
     private ArrayList<ArbolClase> clases = new ArrayList<>();
+    private ArrayList<Object> diagrama = new ArrayList<>();
     
     private Grafico propertiesComponent;
     private Grafico copiedComponent;
+    private ClaseUML copiedClase;
     
     /**
      * Creates new form Principal
@@ -245,8 +250,8 @@ public class Principal extends javax.swing.JFrame {
         btn_nuevaClase = new javax.swing.JButton();
         menuBar1 = new javax.swing.JMenuBar();
         tab_archivo1 = new javax.swing.JMenu();
-        itm_guardar1 = new javax.swing.JMenuItem();
-        itm_abrir1 = new javax.swing.JMenuItem();
+        itm_guardarClase = new javax.swing.JMenuItem();
+        itm_abrirClase = new javax.swing.JMenuItem();
         itm_nuevo1 = new javax.swing.JMenuItem();
         tab_exportar1 = new javax.swing.JMenu();
         itm_savePDFClase = new javax.swing.JMenuItem();
@@ -261,6 +266,7 @@ public class Principal extends javax.swing.JFrame {
         itm_agregarAtributo = new javax.swing.JMenuItem();
         itm_eliminarAtributo = new javax.swing.JMenuItem();
         itm_eliminarArbol = new javax.swing.JMenuItem();
+        itm_copiarClase = new javax.swing.JMenuItem();
         jd_agregarMetodo = new javax.swing.JDialog();
         jPanel4 = new javax.swing.JPanel();
         jLabel31 = new javax.swing.JLabel();
@@ -299,6 +305,8 @@ public class Principal extends javax.swing.JFrame {
         lst_posiblesHijos = new javax.swing.JList<>();
         jLabel38 = new javax.swing.JLabel();
         btn_agregarHijo = new javax.swing.JButton();
+        popmnu_pegarClase = new javax.swing.JPopupMenu();
+        itm_pegarClase = new javax.swing.JMenuItem();
         background = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         lst_variables = new javax.swing.JList<>();
@@ -417,6 +425,8 @@ public class Principal extends javax.swing.JFrame {
         });
         popmnu_edit.add(itm_mostrarDatos);
 
+        jd_agregarVariable.setTitle("Agregar Variable");
+
         lbl_variable.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
         lbl_variable.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbl_variable.setText("Crear Variable");
@@ -493,6 +503,7 @@ public class Principal extends javax.swing.JFrame {
         );
 
         jd_crearOperacion.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        jd_crearOperacion.setTitle("Crear Operacion");
         jd_crearOperacion.setModal(true);
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -730,6 +741,7 @@ public class Principal extends javax.swing.JFrame {
         );
 
         jd_crearIf.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        jd_crearIf.setTitle("Crear If");
         jd_crearIf.setModal(true);
 
         box_condicion2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -811,6 +823,7 @@ public class Principal extends javax.swing.JFrame {
         );
 
         jd_crearWhile.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        jd_crearWhile.setTitle("Crear While");
         jd_crearWhile.setModal(true);
 
         btnGroup_tipoWhile.add(radBtn_inicio1);
@@ -889,6 +902,7 @@ public class Principal extends javax.swing.JFrame {
         );
 
         jd_crearPrint.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        jd_crearPrint.setTitle("Crear Print");
         jd_crearPrint.setModal(true);
 
         jLabel22.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -937,6 +951,7 @@ public class Principal extends javax.swing.JFrame {
         );
 
         jd_crearFor.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        jd_crearFor.setTitle("Crear For");
         jd_crearFor.setModal(true);
 
         btnGroup_tipoFor.add(radBtn_fin2);
@@ -1056,6 +1071,8 @@ public class Principal extends javax.swing.JFrame {
         });
         popmnu_pegar.add(itm_pegar);
 
+        jd_clases.setTitle("Clases");
+
         jLabel30.setFont(new java.awt.Font("Cambria", 1, 18)); // NOI18N
         jLabel30.setText("Clases Generadas");
 
@@ -1080,12 +1097,18 @@ public class Principal extends javax.swing.JFrame {
         jTabbedPane1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         tab_diagramaClases.setBackground(new java.awt.Color(204, 204, 204));
+        tab_diagramaClases.setComponentPopupMenu(popmnu_pegarClase);
+        tab_diagramaClases.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                tab_diagramaClasesMousePressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout tab_diagramaClasesLayout = new javax.swing.GroupLayout(tab_diagramaClases);
         tab_diagramaClases.setLayout(tab_diagramaClasesLayout);
         tab_diagramaClasesLayout.setHorizontalGroup(
             tab_diagramaClasesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 461, Short.MAX_VALUE)
+            .addGap(0, 504, Short.MAX_VALUE)
         );
         tab_diagramaClasesLayout.setVerticalGroup(
             tab_diagramaClasesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1104,7 +1127,7 @@ public class Principal extends javax.swing.JFrame {
             tab_codigoClasesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(tab_codigoClasesLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 449, Short.MAX_VALUE)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 492, Short.MAX_VALUE)
                 .addContainerGap())
         );
         tab_codigoClasesLayout.setVerticalGroup(
@@ -1132,14 +1155,13 @@ public class Principal extends javax.swing.JFrame {
                 .addGap(28, 28, 28)
                 .addGroup(background_clasesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel30, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE)
-                    .addGroup(background_clasesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(btn_nuevaClase, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btn_generarCodigoClases, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btn_herencia, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btn_nuevaClase, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btn_generarCodigoClases, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btn_herencia, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(scrllPane_treeClases))
                 .addGap(18, 18, 18)
-                .addComponent(jTabbedPane1)
-                .addContainerGap())
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 508, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         background_clasesLayout.setVerticalGroup(
             background_clasesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1162,26 +1184,31 @@ public class Principal extends javax.swing.JFrame {
 
         tab_archivo1.setText("Archivo");
 
-        itm_guardar1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_DOWN_MASK));
-        itm_guardar1.setText("Guardar");
-        itm_guardar1.addActionListener(new java.awt.event.ActionListener() {
+        itm_guardarClase.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        itm_guardarClase.setText("Guardar");
+        itm_guardarClase.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                itm_guardar1ActionPerformed(evt);
+                itm_guardarClaseActionPerformed(evt);
             }
         });
-        tab_archivo1.add(itm_guardar1);
+        tab_archivo1.add(itm_guardarClase);
 
-        itm_abrir1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_DOWN_MASK));
-        itm_abrir1.setText("Abrir");
-        itm_abrir1.addActionListener(new java.awt.event.ActionListener() {
+        itm_abrirClase.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        itm_abrirClase.setText("Abrir");
+        itm_abrirClase.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                itm_abrir1ActionPerformed(evt);
+                itm_abrirClaseActionPerformed(evt);
             }
         });
-        tab_archivo1.add(itm_abrir1);
+        tab_archivo1.add(itm_abrirClase);
 
         itm_nuevo1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         itm_nuevo1.setText("Nuevo");
+        itm_nuevo1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itm_nuevo1ActionPerformed(evt);
+            }
+        });
         tab_archivo1.add(itm_nuevo1);
 
         menuBar1.add(tab_archivo1);
@@ -1207,7 +1234,7 @@ public class Principal extends javax.swing.JFrame {
             jd_clasesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jd_clasesLayout.createSequentialGroup()
                 .addComponent(background_clases, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 30, Short.MAX_VALUE))
+                .addGap(0, 35, Short.MAX_VALUE))
         );
         jd_clasesLayout.setVerticalGroup(
             jd_clasesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1306,6 +1333,16 @@ public class Principal extends javax.swing.JFrame {
         });
         popmnu_clases.add(itm_eliminarArbol);
 
+        itm_copiarClase.setText("Copiar Clase");
+        itm_copiarClase.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itm_copiarClaseActionPerformed(evt);
+            }
+        });
+        popmnu_clases.add(itm_copiarClase);
+
+        jd_agregarMetodo.setTitle("Agregar Metodo");
+
         jLabel31.setText("Nombre:");
 
         jLabel32.setText("Return:");
@@ -1402,6 +1439,8 @@ public class Principal extends javax.swing.JFrame {
             .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
+        jd_agregarAtributo.setTitle("Agregar Atributo");
+
         jLabel35.setText("Nombre:");
 
         box_tipoAtributo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "int", "double", "float", "short", "long", "byte", "String", "char", "boolean" }));
@@ -1472,6 +1511,8 @@ public class Principal extends javax.swing.JFrame {
             .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
+        jd_crearParametro.setTitle("Crear Parametro");
+
         box_tipoParametro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "int", "double", "float", "short", "long", "byte", "String", "char", "boolean" }));
 
         lbl_tipo1.setText("Tipo:");
@@ -1531,6 +1572,8 @@ public class Principal extends javax.swing.JFrame {
             jd_crearParametroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
+
+        jd_herencia.setTitle("Herencia");
 
         lst_clases.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -1598,6 +1641,14 @@ public class Principal extends javax.swing.JFrame {
             jd_herenciaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
+
+        itm_pegarClase.setText("Pegar Clase");
+        itm_pegarClase.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itm_pegarClaseActionPerformed(evt);
+            }
+        });
+        popmnu_pegarClase.add(itm_pegarClase);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -2016,6 +2067,11 @@ public class Principal extends javax.swing.JFrame {
 
         itm_nuevo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         itm_nuevo.setText("Nuevo");
+        itm_nuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itm_nuevoActionPerformed(evt);
+            }
+        });
         tab_archivo.add(itm_nuevo);
 
         menuBar.add(tab_archivo);
@@ -2062,8 +2118,42 @@ public class Principal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void itm_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itm_guardarActionPerformed
-        
-        
+        diagrama.clear();
+        JFileChooser chooser = new JFileChooser();
+        int res = chooser.showSaveDialog(null);
+        if (res == JFileChooser.APPROVE_OPTION) {
+            
+            for (Grafico componente : componentes) {
+                componente.setPosicion(componente.getLocation());
+            }
+            ArrayList<Grafico> graficosGuardados= new ArrayList<>();
+            for (Grafico componente : componentes) {
+                graficosGuardados.add(componente.copy());
+            }
+            
+            diagrama.add(graficosGuardados);
+            diagrama.add(variables);
+            diagrama.add(txt_codigo.getText());
+            
+            File file = chooser.getSelectedFile();
+            try{
+                String path = file.getPath();
+                if (!(path.contains("."))) {
+                    path+=".bin";
+                    file = new File(path);
+                }
+                
+                FileOutputStream fos = new FileOutputStream(file);
+                ObjectOutputStream oos = new ObjectOutputStream(fos);
+                                                
+                oos.writeObject(diagrama);
+                oos.close();
+                fos.close();
+            }
+            catch(IOException e){
+                
+            }
+        }
     }//GEN-LAST:event_itm_guardarActionPerformed
 
     private void itm_cambiarTextoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itm_cambiarTextoActionPerformed
@@ -2458,15 +2548,60 @@ public class Principal extends javax.swing.JFrame {
         JFileChooser chooser = new JFileChooser();
         int resultado = chooser.showOpenDialog(null);
         if (resultado == JFileChooser.APPROVE_OPTION) {
+            emptyUML();
             File archivo = chooser.getSelectedFile();
             try {
                 FileInputStream is = new FileInputStream(archivo);
                 ObjectInputStream ois = new ObjectInputStream(is);
-                Object tab = ois.readObject();
-                if (tab instanceof JPanel) {
-                    tp_diagramaCodigo.remove(tab_diagrama);
-                    tp_diagramaCodigo.add((JPanel)tab);
+                ArrayList<Object> diagramaImportado = (ArrayList<Object>)ois.readObject();
+                ArrayList<Grafico> graficos = (ArrayList<Grafico>)diagramaImportado.get(0);
+                if (graficos instanceof ArrayList<Grafico>) {
+                    for (Grafico grafico : graficos) {
+                        grafico.setSize(grafico.getLargo() + 5, grafico.getAlto() + 5);
+
+                        tab_diagrama.add(grafico);
+                        grafico.setComponentPopupMenu(popmnu_edit);
+                        componentes.add(grafico);
+                        grafico.setOpaque(false);
+
+                        //Interacciones
+                        grafico.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+                            @Override
+                            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                                newOperacionMouseDragged(evt, grafico);
+                            }
+                        });
+                        grafico.addMouseListener(new java.awt.event.MouseAdapter() {
+                            @Override
+                            public void mousePressed(java.awt.event.MouseEvent evt) {
+                                newOperacionMouseDragged(evt, grafico);
+                            }
+
+                            @Override
+                            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                                newOperacionMouseDragged(evt, grafico);
+                            }
+
+                            @Override
+                            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                                newOperacionMouseDragged(evt, grafico);
+                            }
+                        });
+                        grafico.setLocation(grafico.getPosicion());
+                    }
                 }
+                
+                ((DefaultListModel)lst_variables.getModel()).clear();
+                
+                ArrayList<Variable> variables = (ArrayList<Variable>)diagramaImportado.get(1);
+                for (Variable variable: variables) {
+                    ((DefaultListModel)lst_variables.getModel()).addElement(variable);
+                }
+                
+                String codigo = (String)diagramaImportado.get(2);
+                
+                txt_codigo.setText(codigo);
+                
             } catch (FileNotFoundException ex) {
                 System.getLogger(Principal.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
             } catch (IOException ex) {
@@ -2731,16 +2866,137 @@ public class Principal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_itm_savePDFActionPerformed
 
-    private void itm_guardar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itm_guardar1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_itm_guardar1ActionPerformed
+    private void itm_guardarClaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itm_guardarClaseActionPerformed
+        JFileChooser chooser = new JFileChooser();
+        int res = chooser.showSaveDialog(null);
+        if (res == JFileChooser.APPROVE_OPTION) {
+            File archivo = chooser.getSelectedFile();
+            for (ArbolClase clase : clases) {
+                clase.setPosicion((SwingUtilities.getAncestorOfClass(JScrollPane.class, clase)).getLocation());
+            }
+            
+            ArrayList<ArbolClase> arboles = new ArrayList<>();
+            for (ArbolClase clase : clases) {
+                arboles.add(clase.copy());
+            }
+            
+            try {
+                String path = archivo.getPath();
+                if(!(path.contains("."))){
+                    path+=".bin";
+                    archivo = new File(path);
+                }
+                FileOutputStream fos = new FileOutputStream(archivo);
+                ObjectOutputStream oos = new ObjectOutputStream(fos);
+                
+                oos.writeObject(arboles);
+                oos.close();
+                fos.close();
+            } catch (FileNotFoundException ex) {
+                System.getLogger(Principal.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+            } catch (IOException ex) {
+                System.getLogger(Principal.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+            }
+        }
+    }//GEN-LAST:event_itm_guardarClaseActionPerformed
 
-    private void itm_abrir1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itm_abrir1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_itm_abrir1ActionPerformed
+    private void itm_abrirClaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itm_abrirClaseActionPerformed
+        emptyClases();
+        JFileChooser chooser = new JFileChooser();
+        int res = chooser.showOpenDialog(null);
+        if (res == JFileChooser.APPROVE_OPTION) {
+            File file = chooser.getSelectedFile();
+                FileInputStream fis;
+            try {
+                fis = new FileInputStream(file);
+                ObjectInputStream fos = new ObjectInputStream(fis);
+                ArrayList<ArbolClase> arboles = (ArrayList<ArbolClase>) fos.readObject();
+
+                DefaultMutableTreeNode root = (DefaultMutableTreeNode) tree_clases.getModel().getRoot();
+                
+                for (ArbolClase arbol : arboles) {
+                    
+                    Point locationImport = arbol.getPosicion();
+                    
+                    ClaseUML claseUML = arbol.getClase();
+                    
+                    DefaultMutableTreeNode clase = new DefaultMutableTreeNode(claseUML);
+                    root.add(clase);
+
+                    clase.add(new DefaultMutableTreeNode("Atributos"));
+                    clase.add(new DefaultMutableTreeNode("Metodos"));
+
+                    DefaultMutableTreeNode atributo = (DefaultMutableTreeNode) clase.getChildAt(0);
+                    DefaultMutableTreeNode metodo = (DefaultMutableTreeNode) clase.getChildAt(1);
+
+                    for (Atributo atribu : claseUML.getAtributos()) {
+                        atributo.add(new DefaultMutableTreeNode(atribu));
+                    }
+                    for (Metodo method : claseUML.getMetodos()) {
+                        metodo.add(new DefaultMutableTreeNode(method));
+                    }
+
+                    arbol = new ArbolClase((ClaseUML) claseUML, clase);
+
+                    JScrollPane scrollPane = new JScrollPane(arbol);
+                    tab_diagramaClases.add(scrollPane, BorderLayout.CENTER);
+                    scrollPane.setVisible(true);
+                    scrollPane.setSize(150, 150);
+                    scrollPane.setLocation(locationImport);
+                    clases.add(arbol);
+
+                    ((DefaultTreeModel) tree_clases.getModel()).reload();
+
+                    //Interacciones
+                    arbol.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+                        @Override
+                        public void mouseDragged(java.awt.event.MouseEvent evt) {
+                            Point mouseLocation = evt.getLocationOnScreen();
+                            SwingUtilities.convertPointFromScreen(mouseLocation, tab_diagramaClases);
+                            if (tab_diagramaClases.contains(mouseLocation)) {
+                                int x = mouseLocation.x - initialMouseClick.x;
+                                int y = mouseLocation.y - initialMouseClick.y;
+                                scrollPane.setLocation(x, y);
+                            }
+                        }
+                    });
+                    arbol.addMouseListener(new java.awt.event.MouseAdapter() {
+                        @Override
+                        public void mousePressed(java.awt.event.MouseEvent evt) {
+                            setInitialClick(evt);
+                        }
+
+                        @Override
+                        public void mouseClicked(java.awt.event.MouseEvent evt) {
+
+                        }
+
+                        @Override
+                        public void mouseReleased(java.awt.event.MouseEvent evt) {
+
+                        }
+                    });
+
+                    //Agregar el popupmenu
+                    arbol.setComponentPopupMenu(popmnu_clases);
+
+                    
+                }
+            } catch (FileNotFoundException ex) {
+                System.getLogger(Principal.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+            } catch (IOException ex) {
+                System.getLogger(Principal.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+            } catch (ClassNotFoundException ex) {
+                System.getLogger(Principal.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+            }
+
+
+            
+        }
+    }//GEN-LAST:event_itm_abrirClaseActionPerformed
 
     private void itm_savePDFClaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itm_savePDFClaseActionPerformed
-        JFileChooser chooser = new JFileChooser();
+        JFileChooser chooser = new JFileChooser();        
         int resultado = chooser.showSaveDialog(null);
         if (resultado == JFileChooser.APPROVE_OPTION) {
             File archivo = chooser.getSelectedFile();
@@ -2819,7 +3075,6 @@ public class Principal extends javax.swing.JFrame {
             listModel.addElement(clase);
                     
             jd_crearClase.dispose();
-
         }
         else{
             JOptionPane.showMessageDialog(null, "El nombre no puede estar en blanco");
@@ -2962,7 +3217,9 @@ public class Principal extends javax.swing.JFrame {
             }
             
             for (ArbolClase clase : clases) {
-                if (clase.getClase()!=selectedClass && (!herencia.contains(clase.getClase()))) {
+                if (clase.getClase()!=selectedClass 
+                        && (!herencia.contains(clase.getClase())) 
+                        && clase.getClase().getPadre()==null) {
                     ((DefaultListModel)lst_posiblesHijos.getModel()).addElement(clase.getClase());
                 }
             }
@@ -2970,7 +3227,10 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_lst_clasesMouseClicked
 
     private void btn_herenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_herenciaActionPerformed
-
+        ((DefaultListModel)lst_clases.getModel()).clear();
+        for (ArbolClase clase : clases) {
+            ((DefaultListModel) lst_clases.getModel()).addElement(clase.getClase());
+        }
         jd_herencia.setVisible(true);
         jd_herencia.pack();
     }//GEN-LAST:event_btn_herenciaActionPerformed
@@ -2997,6 +3257,113 @@ public class Principal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btn_agregarHijoActionPerformed
 
+    private void itm_copiarClaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itm_copiarClaseActionPerformed
+        copiedClase = ((ArbolClase)popmnu_clases.getInvoker()).getClase();
+    }//GEN-LAST:event_itm_copiarClaseActionPerformed
+
+    private void tab_diagramaClasesMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tab_diagramaClasesMousePressed
+        pasteLocation = evt.getLocationOnScreen();
+        SwingUtilities.convertPointFromScreen(pasteLocation, tab_diagramaClases);
+    }//GEN-LAST:event_tab_diagramaClasesMousePressed
+
+    private void itm_pegarClaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itm_pegarClaseActionPerformed
+        ClaseUML newClase = copiedClase.copy();
+        
+        DefaultMutableTreeNode root = (DefaultMutableTreeNode)tree_clases.getModel().getRoot();
+        DefaultMutableTreeNode clase = new DefaultMutableTreeNode(newClase);
+        root.add(clase);
+        
+        clase.add(new DefaultMutableTreeNode("Atributos"));
+        clase.add(new DefaultMutableTreeNode("Metodos"));
+        
+        DefaultMutableTreeNode atributo = (DefaultMutableTreeNode)clase.getChildAt(0);
+        DefaultMutableTreeNode metodo = (DefaultMutableTreeNode)clase.getChildAt(1);
+        
+        for (Atributo atribu : newClase.getAtributos()) {
+            atributo.add(new DefaultMutableTreeNode(atribu));
+        }
+        for (Metodo method : newClase.getMetodos()) {
+            metodo.add(new DefaultMutableTreeNode(method));
+        }
+        
+        ArbolClase arbolClase = new ArbolClase((ClaseUML)newClase,clase);
+        
+        JScrollPane scrollPane = new JScrollPane(arbolClase);
+        tab_diagramaClases.add(scrollPane, BorderLayout.CENTER);
+        scrollPane.setVisible(true);
+        scrollPane.setSize(150, 150);
+        scrollPane.setLocation(pasteLocation);
+        clases.add(arbolClase);
+
+        ((DefaultTreeModel)tree_clases.getModel()).reload();
+        
+        //Interacciones
+        arbolClase.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            @Override
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                Point mouseLocation = evt.getLocationOnScreen();
+                SwingUtilities.convertPointFromScreen(mouseLocation, tab_diagramaClases);
+                if (tab_diagramaClases.contains(mouseLocation)) {
+                    int x = mouseLocation.x - initialMouseClick.x;
+                    int y = mouseLocation.y - initialMouseClick.y;
+                    scrollPane.setLocation(x, y);
+                }
+            }
+        });
+        arbolClase.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                setInitialClick(evt);
+            }
+
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+
+            }
+
+            @Override
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+
+            }
+        });
+
+        //Agregar el popupmenu
+        arbolClase.setComponentPopupMenu(popmnu_clases);
+    }//GEN-LAST:event_itm_pegarClaseActionPerformed
+
+    private void itm_nuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itm_nuevoActionPerformed
+        emptyUML();
+    }//GEN-LAST:event_itm_nuevoActionPerformed
+
+    private void itm_nuevo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itm_nuevo1ActionPerformed
+        emptyClases();
+    }//GEN-LAST:event_itm_nuevo1ActionPerformed
+
+    private void emptyClases(){
+        clases.clear();
+        DefaultTreeModel model = (DefaultTreeModel)tree_clases.getModel();
+        DefaultMutableTreeNode root = (DefaultMutableTreeNode)model.getRoot();
+        root.removeAllChildren();
+        tab_diagramaClases.removeAll();
+        txt_codigoClases.setText("");
+        
+        ((DefaultListModel)lst_clases.getModel()).clear();
+        
+        model.reload();
+        tab_diagrama.repaint();
+        tab_diagrama.revalidate();
+    }
+    
+    private void emptyUML(){
+        ((DefaultListModel) lst_variables.getModel()).removeAllElements();
+        tab_diagrama.removeAll();
+        txt_codigo.setText("");
+
+        componentes.clear();
+        variables.clear();
+
+    }
+    
     private void refreshTrees(){
         ((DefaultTreeModel)((ArbolClase)popmnu_clases.getInvoker()).getModel()).reload();
         ((DefaultTreeModel)tree_clases.getModel()).reload();
@@ -3153,7 +3520,7 @@ public class Principal extends javax.swing.JFrame {
     private proyectofinalp2_jorgeeuceda.If if1;
     private proyectofinalp2_jorgeeuceda.Inicio inicio;
     private javax.swing.JMenuItem itm_abrir;
-    private javax.swing.JMenuItem itm_abrir1;
+    private javax.swing.JMenuItem itm_abrirClase;
     private javax.swing.JMenuItem itm_agregarAtributo;
     private javax.swing.JMenuItem itm_agregarMetodo;
     private javax.swing.JMenuItem itm_cambiarColor;
@@ -3162,16 +3529,18 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem itm_clases;
     private javax.swing.JMenuItem itm_colorFuente;
     private javax.swing.JMenuItem itm_copiar;
+    private javax.swing.JMenuItem itm_copiarClase;
     private javax.swing.JMenuItem itm_eliminar;
     private javax.swing.JMenuItem itm_eliminarArbol;
     private javax.swing.JMenuItem itm_eliminarAtributo;
     private javax.swing.JMenuItem itm_eliminarMetodo;
     private javax.swing.JMenuItem itm_guardar;
-    private javax.swing.JMenuItem itm_guardar1;
+    private javax.swing.JMenuItem itm_guardarClase;
     private javax.swing.JMenuItem itm_mostrarDatos;
     private javax.swing.JMenuItem itm_nuevo;
     private javax.swing.JMenuItem itm_nuevo1;
     private javax.swing.JMenuItem itm_pegar;
+    private javax.swing.JMenuItem itm_pegarClase;
     private javax.swing.JMenuItem itm_propiedades;
     private javax.swing.JRadioButtonMenuItem itm_rellenar;
     private javax.swing.JMenuItem itm_savePDF;
@@ -3262,6 +3631,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JPopupMenu popmnu_clases;
     private javax.swing.JPopupMenu popmnu_edit;
     private javax.swing.JPopupMenu popmnu_pegar;
+    private javax.swing.JPopupMenu popmnu_pegarClase;
     private proyectofinalp2_jorgeeuceda.Print print;
     private javax.swing.JRadioButton radBtn_fin;
     private javax.swing.JRadioButton radBtn_fin1;

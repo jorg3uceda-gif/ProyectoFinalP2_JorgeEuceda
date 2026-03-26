@@ -110,6 +110,7 @@ public class Operacion extends Grafico{
         repaint();
     }
     
+    @Override
     public Operacion copy() {
         Operacion copy = new Operacion();
         copy.alto = this.alto;
@@ -123,6 +124,7 @@ public class Operacion extends Grafico{
         copy.resultado = this.resultado;
         copy.variable1 = this.variable1;
         copy.variable2 = this.variable2;
+        copy.posicion = this.posicion;
 
         return copy;
     }

@@ -1,14 +1,18 @@
 package proyectofinalp2_jorgeeuceda;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-    public class ClaseUML {
+    public class ClaseUML implements Serializable {
     
     private String nombre;
     private ArrayList<Metodo> metodos = new ArrayList<>();
     private ArrayList<Atributo> atributos = new ArrayList<>();
     private ClaseUML padre;
 
+    public ClaseUML() {
+    }
+    
     public ClaseUML(String nombre) {
         this.nombre = nombre;
     }
@@ -48,6 +52,24 @@ import java.util.ArrayList;
         code+="}";
         
         return code;
+    }
+    
+    public ClaseUML copy(){
+        ClaseUML copia = new ClaseUML();
+        copia.nombre = this.nombre;
+        copia.atributos = new ArrayList<Atributo>();
+        for (Atributo atributo : this.atributos) {
+            copia.atributos.add(atributo);
+        }
+        copia.metodos = new ArrayList<Metodo>();
+        for (Metodo metodo: this.metodos) {
+            copia.metodos.add(metodo);
+        }
+        if (this.padre != null) {
+            copia.padre = padre.copy();
+        }
+
+        return copia;
     }
     
     public String getNombre() {

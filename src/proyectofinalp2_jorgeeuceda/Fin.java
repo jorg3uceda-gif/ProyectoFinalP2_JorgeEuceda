@@ -33,7 +33,7 @@ public class Fin extends Grafico{
         copy.color = this.color;
         copy.nombre = this.nombre;
         copy.textColor = this.textColor;
-
+        copy.posicion = this.posicion;
         return copy;
     }
     

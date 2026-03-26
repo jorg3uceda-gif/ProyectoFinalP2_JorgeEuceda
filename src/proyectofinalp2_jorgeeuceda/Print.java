@@ -71,6 +71,7 @@ public class Print extends Grafico{
         repaint();
     }
     
+    @Override
     public Print copy(){
         Print copy = new Print();
         copy.alto = this.alto;
@@ -80,7 +81,8 @@ public class Print extends Grafico{
         copy.color = this.color;
         copy.nombre = this.nombre;
         copy.textColor = this.textColor;
-        
+        copy.posicion = this.posicion;
+
         copy.message = this.message;
         return copy;
     }

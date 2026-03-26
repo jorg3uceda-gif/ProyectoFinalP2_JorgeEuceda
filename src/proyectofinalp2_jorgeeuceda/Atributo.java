@@ -1,6 +1,8 @@
 package proyectofinalp2_jorgeeuceda;
 
-public class Atributo extends Variable{
+import java.io.Serializable;
+
+public class Atributo extends Variable implements Serializable{
     
     private String alcance;
 

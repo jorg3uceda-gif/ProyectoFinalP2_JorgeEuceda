@@ -17,7 +17,8 @@ public class Inicio extends Grafico{
     
     @Override
     public String generateCode(int indent) {
-        return"public class Codigo{\n"
+        return"package codigo;\n"
+                + "public class Codigo{\n"
                 + "    public static void main (String[] args){\n";
     }
     
@@ -31,7 +32,7 @@ public class Inicio extends Grafico{
         copy.color = this.color;
         copy.nombre = this.nombre;
         copy.textColor = this.textColor;
-
+        copy.posicion = this.posicion;
         return copy;
     }
     

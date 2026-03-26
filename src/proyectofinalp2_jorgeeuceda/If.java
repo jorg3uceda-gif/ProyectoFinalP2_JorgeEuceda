@@ -78,6 +78,7 @@ public class If extends Grafico{
         copy.textColor = this.textColor;
         copy.condicion = this.condicion;
         copy.inicio = this.inicio;
+        copy.posicion = this.posicion;
 
         return copy;
     }

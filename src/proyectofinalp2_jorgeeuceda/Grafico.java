@@ -23,7 +23,7 @@ public abstract class Grafico extends javax.swing.JPanel implements Serializable
     protected int largo;
     protected int alto;
     protected boolean fill;
-    protected Point Posicion;
+    protected Point posicion;
 
     public Grafico(){        
         
@@ -98,12 +98,14 @@ public abstract class Grafico extends javax.swing.JPanel implements Serializable
     }
 
     public Point getPosicion() {
-        return Posicion;
+        return posicion;
     }
 
-    public void setPosicion(Point Posicion) {
-        this.Posicion = Posicion;
+    public void setPosicion(Point posicion) {
+        this.posicion = posicion;
     }
+
+
     
     
     

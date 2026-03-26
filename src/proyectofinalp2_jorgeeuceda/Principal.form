@@ -104,6 +104,9 @@
       </SubComponents>
     </Container>
     <Container class="javax.swing.JDialog" name="jd_agregarVariable">
+      <Properties>
+        <Property name="title" type="java.lang.String" value="Agregar Variable"/>
+      </Properties>
 
       <Layout>
         <DimensionLayout dim="0">
@@ -233,6 +236,7 @@
     <Container class="javax.swing.JDialog" name="jd_crearOperacion">
       <Properties>
         <Property name="defaultCloseOperation" type="int" value="0"/>
+        <Property name="title" type="java.lang.String" value="Crear Operacion"/>
         <Property name="modal" type="boolean" value="true"/>
       </Properties>
 
@@ -662,6 +666,7 @@
     <Container class="javax.swing.JDialog" name="jd_crearIf">
       <Properties>
         <Property name="defaultCloseOperation" type="int" value="0"/>
+        <Property name="title" type="java.lang.String" value="Crear If"/>
         <Property name="modal" type="boolean" value="true"/>
       </Properties>
 
@@ -825,6 +830,7 @@
     <Container class="javax.swing.JDialog" name="jd_crearWhile">
       <Properties>
         <Property name="defaultCloseOperation" type="int" value="0"/>
+        <Property name="title" type="java.lang.String" value="Crear While"/>
         <Property name="modal" type="boolean" value="true"/>
       </Properties>
 
@@ -982,6 +988,7 @@
     <Container class="javax.swing.JDialog" name="jd_crearPrint">
       <Properties>
         <Property name="defaultCloseOperation" type="int" value="0"/>
+        <Property name="title" type="java.lang.String" value="Crear Print"/>
         <Property name="modal" type="boolean" value="true"/>
       </Properties>
 
@@ -1057,6 +1064,7 @@
     <Container class="javax.swing.JDialog" name="jd_crearFor">
       <Properties>
         <Property name="defaultCloseOperation" type="int" value="0"/>
+        <Property name="title" type="java.lang.String" value="Crear For"/>
         <Property name="modal" type="boolean" value="true"/>
       </Properties>
 
@@ -1271,13 +1279,16 @@
       </SubComponents>
     </Container>
     <Container class="javax.swing.JDialog" name="jd_clases">
+      <Properties>
+        <Property name="title" type="java.lang.String" value="Clases"/>
+      </Properties>
 
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <Component id="background_clases" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="0" pref="30" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="35" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -1300,16 +1311,14 @@
                       <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="jLabel30" alignment="0" pref="205" max="32767" attributes="0"/>
-                          <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                              <Component id="btn_nuevaClase" alignment="0" max="32767" attributes="0"/>
-                              <Component id="btn_generarCodigoClases" alignment="0" max="32767" attributes="0"/>
-                              <Component id="btn_herencia" alignment="0" max="32767" attributes="0"/>
-                          </Group>
+                          <Component id="btn_nuevaClase" alignment="0" max="32767" attributes="0"/>
+                          <Component id="btn_generarCodigoClases" alignment="0" max="32767" attributes="0"/>
+                          <Component id="btn_herencia" alignment="0" max="32767" attributes="0"/>
                           <Component id="scrllPane_treeClases" alignment="0" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="jTabbedPane1" max="32767" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jTabbedPane1" min="-2" pref="508" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -1393,7 +1402,13 @@
                     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="cc" green="cc" red="cc" type="rgb"/>
                     </Property>
+                    <Property name="componentPopupMenu" type="javax.swing.JPopupMenu" editor="org.netbeans.modules.form.ComponentChooserEditor">
+                      <ComponentRef name="popmnu_pegarClase"/>
+                    </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tab_diagramaClasesMousePressed"/>
+                  </Events>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
                       <JTabbedPaneConstraints tabName="Diagrama">
@@ -1405,7 +1420,7 @@
                   <Layout>
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <EmptySpace min="0" pref="461" max="32767" attributes="0"/>
+                          <EmptySpace min="0" pref="504" max="32767" attributes="0"/>
                       </Group>
                     </DimensionLayout>
                     <DimensionLayout dim="1">
@@ -1429,7 +1444,7 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jScrollPane4" pref="449" max="32767" attributes="0"/>
+                              <Component id="jScrollPane4" pref="492" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -1481,7 +1496,7 @@
                 <Property name="text" type="java.lang.String" value="Archivo"/>
               </Properties>
               <SubComponents>
-                <MenuItem class="javax.swing.JMenuItem" name="itm_guardar1">
+                <MenuItem class="javax.swing.JMenuItem" name="itm_guardarClase">
                   <Properties>
                     <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
                       <KeyStroke key="Ctrl+S"/>
@@ -1489,10 +1504,10 @@
                     <Property name="text" type="java.lang.String" value="Guardar"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itm_guardar1ActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itm_guardarClaseActionPerformed"/>
                   </Events>
                 </MenuItem>
-                <MenuItem class="javax.swing.JMenuItem" name="itm_abrir1">
+                <MenuItem class="javax.swing.JMenuItem" name="itm_abrirClase">
                   <Properties>
                     <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
                       <KeyStroke key="Ctrl+A"/>
@@ -1500,7 +1515,7 @@
                     <Property name="text" type="java.lang.String" value="Abrir"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itm_abrir1ActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itm_abrirClaseActionPerformed"/>
                   </Events>
                 </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="itm_nuevo1">
@@ -1510,6 +1525,9 @@
                     </Property>
                     <Property name="text" type="java.lang.String" value="Nuevo"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itm_nuevo1ActionPerformed"/>
+                  </Events>
                 </MenuItem>
               </SubComponents>
             </Menu>
@@ -1656,9 +1674,20 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itm_eliminarArbolActionPerformed"/>
           </Events>
         </MenuItem>
+        <MenuItem class="javax.swing.JMenuItem" name="itm_copiarClase">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Copiar Clase"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itm_copiarClaseActionPerformed"/>
+          </Events>
+        </MenuItem>
       </SubComponents>
     </Container>
     <Container class="javax.swing.JDialog" name="jd_agregarMetodo">
+      <Properties>
+        <Property name="title" type="java.lang.String" value="Agregar Metodo"/>
+      </Properties>
 
       <Layout>
         <DimensionLayout dim="0">
@@ -1843,6 +1872,9 @@
       </SubComponents>
     </Container>
     <Container class="javax.swing.JDialog" name="jd_agregarAtributo">
+      <Properties>
+        <Property name="title" type="java.lang.String" value="Agregar Atributo"/>
+      </Properties>
 
       <Layout>
         <DimensionLayout dim="0">
@@ -1977,6 +2009,9 @@
       </SubComponents>
     </Container>
     <Container class="javax.swing.JDialog" name="jd_crearParametro">
+      <Properties>
+        <Property name="title" type="java.lang.String" value="Crear Parametro"/>
+      </Properties>
 
       <Layout>
         <DimensionLayout dim="0">
@@ -2085,6 +2120,9 @@
       </SubComponents>
     </Container>
     <Container class="javax.swing.JDialog" name="jd_herencia">
+      <Properties>
+        <Property name="title" type="java.lang.String" value="Herencia"/>
+      </Properties>
 
       <Layout>
         <DimensionLayout dim="0">
@@ -2211,6 +2249,22 @@
         </Container>
       </SubComponents>
     </Container>
+    <Container class="javax.swing.JPopupMenu" name="popmnu_pegarClase">
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
+        <Property name="useNullLayout" type="boolean" value="true"/>
+      </Layout>
+      <SubComponents>
+        <MenuItem class="javax.swing.JMenuItem" name="itm_pegarClase">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Pegar Clase"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itm_pegarClaseActionPerformed"/>
+          </Events>
+        </MenuItem>
+      </SubComponents>
+    </Container>
     <Menu class="javax.swing.JMenuBar" name="menuBar">
       <SubComponents>
         <Menu class="javax.swing.JMenu" name="tab_archivo">
@@ -2247,6 +2301,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Nuevo"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itm_nuevoActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>

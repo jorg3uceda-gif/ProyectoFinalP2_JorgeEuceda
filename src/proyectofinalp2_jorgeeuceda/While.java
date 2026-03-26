@@ -109,7 +109,8 @@ public class While extends Grafico{
         copy.textColor = this.textColor;
         copy.condicion = this.condicion;
         copy.inicio = this.inicio;
-        
+        copy.posicion = this.posicion;
+
         return copy;
     }
     

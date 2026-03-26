@@ -124,6 +124,7 @@ public class For extends Grafico{
         copy.condicion = this.condicion;
         copy.actualizar = this.actualizar;
         copy.inicio = this.inicio;
+        copy.posicion = this.posicion;
 
         return copy;
     }
