@@ -6,12 +6,10 @@ public class Variable implements Serializable {
     
     private String name;
     private String type;
-    private String alcance;
 
-    public Variable(String name, String type, String alcance) {
+    public Variable(String name, String type) {
         this.name = name;
         this.type = type;
-        this.alcance = alcance;
     }
     
     public String getName() {
@@ -28,14 +26,6 @@ public class Variable implements Serializable {
 
     public void setType(String type) {
         this.type = type;
-    }
-
-    public String getAlcance() {
-        return alcance;
-    }
-
-    public void setAlcance(String alcance) {
-        this.alcance = alcance;
     }
     
     @Override
