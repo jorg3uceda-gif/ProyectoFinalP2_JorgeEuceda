@@ -43,9 +43,7 @@ public class While extends Grafico{
             return ("\nwhile("+condicion+"){").indent(indent);
         }
         else{
-            return"""
-                  }
-                  """;
+            return("\n}").indent(indent);
         }
     }
     

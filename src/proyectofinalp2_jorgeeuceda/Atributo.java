@@ -6,7 +6,7 @@ public class Atributo extends Variable implements Serializable{
     
     private String alcance;
 
-    public Atributo(String alcance, String name, String type) {
+    public Atributo(String name, String type, String alcance) {
         super(name, type);
         this.alcance = alcance;
     }

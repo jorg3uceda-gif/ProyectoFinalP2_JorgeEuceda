@@ -43,7 +43,7 @@ public class Operacion extends Grafico{
     
     @Override
     public String generateCode(int indent) {
-        return ("\n"+resultado.getName()+"="+variable1.getName()+tipo.getSimbolo()+variable2.getName()+"\n").indent(indent);
+        return ("\n"+resultado.getName()+"="+variable1.getName()+tipo.getSimbolo()+variable2.getName()+";\n").indent(indent);
     }
 
     public OperacionTipo getTipo() {

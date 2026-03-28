@@ -689,21 +689,21 @@
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="radBtn_inicio" min="-2" pref="100" max="-2" attributes="0"/>
                               <Component id="radBtn_fin" min="-2" pref="100" max="-2" attributes="0"/>
-                              <Group type="102" attributes="0">
-                                  <Component id="box_condicion1" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="box_tipoCondicion" min="-2" pref="53" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="box_condicion2" min="-2" max="-2" attributes="0"/>
-                              </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
                                   <Component id="jLabel16" min="-2" max="-2" attributes="0"/>
                               </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="box_condicion1" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="box_tipoCondicion" min="-2" pref="59" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="box_condicion2" min="-2" max="-2" attributes="0"/>
+                              </Group>
                           </Group>
                       </Group>
                   </Group>
-                  <EmptySpace min="-2" pref="84" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="78" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -803,7 +803,7 @@
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
               <StringArray count="5">
-                <StringItem index="0" value="="/>
+                <StringItem index="0" value="=="/>
                 <StringItem index="1" value="&gt;="/>
                 <StringItem index="2" value="&lt;="/>
                 <StringItem index="3" value="&lt;"/>
@@ -853,18 +853,18 @@
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="radBtn_inicio1" alignment="0" min="-2" pref="100" max="-2" attributes="0"/>
                               <Component id="radBtn_fin1" alignment="0" min="-2" pref="100" max="-2" attributes="0"/>
+                              <Component id="jLabel19" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="box_condicion4" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="box_tipoCondicion1" min="-2" pref="53" max="-2" attributes="0"/>
+                                  <Component id="box_tipoCondicion1" min="-2" pref="59" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="box_condicion3" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <Component id="jLabel19" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
-                  <EmptySpace min="-2" pref="84" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="78" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -900,6 +900,7 @@
             <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
               <ComponentRef name="btnGroup_tipoWhile"/>
             </Property>
+            <Property name="selected" type="boolean" value="true"/>
             <Property name="text" type="java.lang.String" value="Inicio"/>
           </Properties>
         </Component>
@@ -907,7 +908,7 @@
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
               <StringArray count="5">
-                <StringItem index="0" value="="/>
+                <StringItem index="0" value="=="/>
                 <StringItem index="1" value="&gt;="/>
                 <StringItem index="2" value="&lt;="/>
                 <StringItem index="3" value="&lt;"/>

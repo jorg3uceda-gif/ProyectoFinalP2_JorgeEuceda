@@ -766,7 +766,7 @@ public class Principal extends javax.swing.JFrame {
         radBtn_inicio.setSelected(true);
         radBtn_inicio.setText("Inicio");
 
-        box_tipoCondicion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "=", ">=", "<=", "<", ">" }));
+        box_tipoCondicion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "==", ">=", "<=", "<", ">" }));
 
         btnGroup_tipoIf.add(radBtn_fin);
         radBtn_fin.setText("Fin");
@@ -790,15 +790,15 @@ public class Principal extends javax.swing.JFrame {
                             .addComponent(radBtn_inicio, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(radBtn_fin, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jd_crearIfLayout.createSequentialGroup()
+                                .addGap(15, 15, 15)
+                                .addComponent(jLabel16))
+                            .addGroup(jd_crearIfLayout.createSequentialGroup()
                                 .addComponent(box_condicion1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(box_tipoCondicion, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(box_tipoCondicion, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(box_condicion2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jd_crearIfLayout.createSequentialGroup()
-                                .addGap(15, 15, 15)
-                                .addComponent(jLabel16)))))
-                .addGap(84, 84, 84))
+                                .addComponent(box_condicion2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addGap(78, 78, 78))
         );
         jd_crearIfLayout.setVerticalGroup(
             jd_crearIfLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -827,9 +827,10 @@ public class Principal extends javax.swing.JFrame {
         jd_crearWhile.setModal(true);
 
         btnGroup_tipoWhile.add(radBtn_inicio1);
+        radBtn_inicio1.setSelected(true);
         radBtn_inicio1.setText("Inicio");
 
-        box_tipoCondicion1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "=", ">=", "<=", "<", ">" }));
+        box_tipoCondicion1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "==", ">=", "<=", "<", ">" }));
 
         btnGroup_tipoWhile.add(radBtn_fin1);
         radBtn_fin1.setText("Fin");
@@ -870,14 +871,14 @@ public class Principal extends javax.swing.JFrame {
                         .addGroup(jd_crearWhileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(radBtn_inicio1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(radBtn_fin1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel19)
                             .addGroup(jd_crearWhileLayout.createSequentialGroup()
                                 .addComponent(box_condicion4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(box_tipoCondicion1, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(box_tipoCondicion1, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(box_condicion3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel19))))
-                .addGap(84, 84, 84))
+                                .addComponent(box_condicion3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addGap(78, 78, 78))
         );
         jd_crearWhileLayout.setVerticalGroup(
             jd_crearWhileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2256,6 +2257,7 @@ public class Principal extends javax.swing.JFrame {
         SwingUtilities.convertPointFromScreen(mouseLocation, tab_diagrama);
         if (tab_diagrama.contains(mouseLocation) && tp_diagramaCodigo.getSelectedIndex()==0) {
             if (!variables.isEmpty()) {
+                operacion.setLocation(defaultPositionOperacion);
                 Operacion newOperacion = new Operacion(new Font("Arial", 0, 10), " ", Color.black, 80, 60, false);
                 inicializarGrafico(newOperacion);
                 jd_crearOperacion.pack();
@@ -2463,7 +2465,7 @@ public class Principal extends javax.swing.JFrame {
             propertiesComponent.setTextColor(color);
             propertiesComponent.setLargo(largo);
             propertiesComponent.setAlto(alto);
-            propertiesComponent.setSize(largo+3, alto+3);
+            propertiesComponent.setSize(largo+5, alto+5);
         }
         else{
             JOptionPane.showMessageDialog(null, "El texto no puede estar en blanco");
@@ -2488,6 +2490,7 @@ public class Principal extends javax.swing.JFrame {
         SwingUtilities.convertPointFromScreen(mouseLocation, tab_diagrama);
         if (tab_diagrama.contains(mouseLocation) && tp_diagramaCodigo.getSelectedIndex() == 0) {
             if (!variables.isEmpty()) {
+                if1.setLocation(defaultPositionIf);
                 If newIf = new If(new Font("Arial", 0, 10), " ", Color.black, 80, 60, false);
                 inicializarGrafico(newIf);
                 jd_crearIf.pack();
@@ -2500,6 +2503,7 @@ public class Principal extends javax.swing.JFrame {
         if1.setLocation(defaultPositionIf);
     }//GEN-LAST:event_if1MouseReleased
 
+    
     private void btn_guardarIfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guardarIfActionPerformed
         boolean isInicio = radBtn_inicio.isSelected();
         Variable condicion1 = (Variable)box_condicion1.getSelectedItem();
@@ -2507,6 +2511,7 @@ public class Principal extends javax.swing.JFrame {
         String condicion = condicion1.getName() + box_tipoCondicion.getSelectedItem() + condicion2.getName();
         System.out.println(condicion);
         If currentWhile = (If)componentes.getLast();
+        
         
         if(isInicio){
             currentWhile.setInicio(isInicio);
@@ -2531,6 +2536,7 @@ public class Principal extends javax.swing.JFrame {
         Point mouseLocation = MouseInfo.getPointerInfo().getLocation();
         SwingUtilities.convertPointFromScreen(mouseLocation, tab_diagrama);
         if (tab_diagrama.contains(mouseLocation) && tp_diagramaCodigo.getSelectedIndex() == 0) {
+            print.setLocation(defaultPositionPrint);
             Print newPrint = new Print(new Font("Arial", 0, 10), " ", Color.black, 80, 60, false);
             inicializarGrafico(newPrint);
             jd_crearPrint.pack();
@@ -2632,6 +2638,7 @@ public class Principal extends javax.swing.JFrame {
         SwingUtilities.convertPointFromScreen(mouseLocation, tab_diagrama);
         if (tab_diagrama.contains(mouseLocation) && tp_diagramaCodigo.getSelectedIndex() == 0) {
             if (!variables.isEmpty()) {
+                while1.setLocation(defaultPositionWhile);
                 While newWhile = new While(new Font("Arial", 0, 10), " ", Color.black, 80, 60, false);
                 inicializarGrafico(newWhile);
                 jd_crearWhile.pack();
@@ -2764,6 +2771,7 @@ public class Principal extends javax.swing.JFrame {
         Point mouseLocation = MouseInfo.getPointerInfo().getLocation();
         SwingUtilities.convertPointFromScreen(mouseLocation, tab_diagrama);
         if (tab_diagrama.contains(mouseLocation) && tp_diagramaCodigo.getSelectedIndex() == 0) {
+            for1.setLocation(defaultPositionFor);
             For newFor = new For(new Font("Arial", 0, 10), " ", Color.black, 80, 60, false);
             inicializarGrafico(newFor);
             jd_crearFor.pack();
@@ -3084,8 +3092,9 @@ public class Principal extends javax.swing.JFrame {
 
     private void itm_eliminarMetodoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itm_eliminarMetodoActionPerformed
         if (checkIfSelected((ArbolClase) popmnu_clases.getInvoker())) {
-            if (getSelectedNode().getUserObject() instanceof Metodo) {
+            if (getSelectedNode().getUserObject() instanceof Metodo metodo) {
                 ((DefaultTreeModel) (((ArbolClase) popmnu_clases.getInvoker()).getModel())).removeNodeFromParent(getSelectedNode());
+                ((ArbolClase) popmnu_clases.getInvoker()).getClase().getMetodos().remove(metodo);
             } else {
                 JOptionPane.showMessageDialog(null, "No ha seleccionado un metodo");
             }
@@ -3102,8 +3111,9 @@ public class Principal extends javax.swing.JFrame {
 
     private void itm_eliminarAtributoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itm_eliminarAtributoActionPerformed
         if (checkIfSelected((ArbolClase) popmnu_clases.getInvoker())) {
-            if (getSelectedNode().getUserObject() instanceof Atributo) {
+            if (getSelectedNode().getUserObject() instanceof Atributo atributo) {
                 ((DefaultTreeModel)(((ArbolClase) popmnu_clases.getInvoker()).getModel())).removeNodeFromParent(getSelectedNode());
+                ((ArbolClase) popmnu_clases.getInvoker()).getClase().getAtributos().remove(atributo);
             }
             else{
                 JOptionPane.showMessageDialog(null, "No ha seleccionado un atributo");

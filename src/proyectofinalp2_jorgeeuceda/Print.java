@@ -27,7 +27,7 @@ public class Print extends Grafico{
 
     @Override
     public String generateCode(int indent) {
-        return("\nSystem.out.println("+message+");\n").indent(indent);
+        return("\nSystem.out.println(\""+message+"\");\n").indent(indent);
     }
     
     public String getMessage() {
