@@ -2574,17 +2574,17 @@ public class Principal extends javax.swing.JFrame {
                         grafico.addMouseListener(new java.awt.event.MouseAdapter() {
                             @Override
                             public void mousePressed(java.awt.event.MouseEvent evt) {
-                                newOperacionMouseDragged(evt, grafico);
+                                setInitialClick(evt);
                             }
 
                             @Override
                             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                                newOperacionMouseDragged(evt, grafico);
+                                
                             }
 
                             @Override
                             public void mouseReleased(java.awt.event.MouseEvent evt) {
-                                newOperacionMouseDragged(evt, grafico);
+                                
                             }
                         });
                         grafico.setLocation(grafico.getPosicion());
@@ -2593,8 +2593,9 @@ public class Principal extends javax.swing.JFrame {
                 
                 ((DefaultListModel)lst_variables.getModel()).clear();
                 
-                ArrayList<Variable> variables = (ArrayList<Variable>)diagramaImportado.get(1);
-                for (Variable variable: variables) {
+                ArrayList<Variable> variablesImport = (ArrayList<Variable>)diagramaImportado.get(1);
+                for (Variable variable: variablesImport) {
+                    variables.add(variable);
                     ((DefaultListModel)lst_variables.getModel()).addElement(variable);
                 }
                 
