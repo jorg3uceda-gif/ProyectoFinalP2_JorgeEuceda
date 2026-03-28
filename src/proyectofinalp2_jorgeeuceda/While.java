@@ -96,6 +96,7 @@ public class While extends Grafico{
         repaint();
     }
     
+    @Override
     public While copy() {
         While copy = new While();
         copy.alto = this.alto;

@@ -3205,7 +3205,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_itm_eliminarArbolActionPerformed
 
     private void btn_generarCodigoClasesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_generarCodigoClasesActionPerformed
-        String codigo = "";
+        String codigo = "package clases;\n";
         for (ArbolClase clase : clases) {
             codigo+=(clase.getClase().generateCode()+"\n");
         }
